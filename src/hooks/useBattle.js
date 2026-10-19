@@ -24,6 +24,13 @@ const initialState = {
   error: null,
 }
 
+/** Placeholder judgement for records persisted before the response lands. */
+const EMPTY_JUDGEMENT = {
+  solution_1: { score: 0, feedback: '' },
+  solution_2: { score: 0, feedback: '' },
+  winner: '',
+}
+
 /**
  * Guarded transitions: late timers or stale responses can never rewind a phase.
  * @param {typeof initialState} state
@@ -91,10 +98,14 @@ function toBattleError(failure) {
 
 /**
  * Owns the live battle lifecycle. Exactly one battle at a time.
+ * Every milestone (problem submitted, response, failure) is handed to the
+ * persistence callbacks immediately, so a crash or refresh cannot lose data.
  *
  * @param {object} [options]
+ * @param {(battle: import('../lib/types.js').Battle) => void} [options.onBattleUpdate]
+ *   Called at submit (`in_progress`) and on failure (`failed`) — persisted, not listed.
  * @param {(battle: import('../lib/types.js').Battle) => void} [options.onBattleComplete]
- *   Called once per successful response, before the reveal starts — App persists it.
+ *   Called once per successful response (`complete`), before the reveal starts.
  * @returns {{
  *   phase: string,
  *   problem: string,
@@ -108,16 +119,20 @@ function toBattleError(failure) {
  *   reset: () => void,
  * }}
  */
-export function useBattle({ onBattleComplete } = {}) {
+export function useBattle({ onBattleComplete, onBattleUpdate } = {}) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const timersRef = useRef([])
   const stateRef = useRef(state)
   const onCompleteRef = useRef(onBattleComplete)
+  const onUpdateRef = useRef(onBattleUpdate)
+  // One record per round: a retry rewrites the same id instead of orphaning it.
+  const recordRef = useRef(null)
 
   useEffect(() => {
     stateRef.current = state
     onCompleteRef.current = onBattleComplete
+    onUpdateRef.current = onBattleUpdate
   })
 
   // Never leave timers behind on unmount.
@@ -149,6 +164,22 @@ export function useBattle({ onBattleComplete } = {}) {
     if (ACTIVE_PHASES.includes(current.phase) || current.phase === REVEALING) return false
 
     clearTimers()
+
+    if (current.phase !== ERROR || !recordRef.current) {
+      recordRef.current = { id: crypto.randomUUID(), createdAt: Date.now() }
+    }
+    const record = recordRef.current
+
+    // Persist the problem before any network work starts.
+    onUpdateRef.current?.({
+      ...record,
+      problem: trimmed,
+      solution_1: '',
+      solution_2: '',
+      judgement: EMPTY_JUDGEMENT,
+      status: 'in_progress',
+    })
+
     dispatch({ type: 'SUBMIT', problem: trimmed })
 
     // Simulated phases: cosmetic only, they never reflect real server progress.
@@ -162,9 +193,9 @@ export function useBattle({ onBattleComplete } = {}) {
       .then((result) => {
         clearTimers()
         const battle = {
-          id: crypto.randomUUID(),
-          createdAt: Date.now(),
+          ...record,
           ...result,
+          status: 'complete',
         }
         onCompleteRef.current?.(battle)
         dispatch({ type: 'RESOLVE', battle })
@@ -172,6 +203,14 @@ export function useBattle({ onBattleComplete } = {}) {
       .catch((failure) => {
         clearTimers()
         if (failure?.kind === 'aborted') return
+        onUpdateRef.current?.({
+          ...record,
+          problem: trimmed,
+          solution_1: '',
+          solution_2: '',
+          judgement: EMPTY_JUDGEMENT,
+          status: 'failed',
+        })
         dispatch({ type: 'FAIL', error: toBattleError(failure) })
       })
 

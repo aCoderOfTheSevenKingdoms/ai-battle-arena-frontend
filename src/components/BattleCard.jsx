@@ -17,7 +17,9 @@ const BADGE = {
  * One collapsible entry in the battle history log. The collapsed row shows a
  * one-line problem summary, scores, timestamp, and winner badge; expanding
  * reveals the full problem, the compact ResultView, and re-run / delete
- * actions. Deletion is guarded by a local ConfirmPopover.
+ * actions. Layout is driven by container width (not viewport): it stacks inside
+ * the narrow sidebar dropdown and runs inline in the wide arena/landing view.
+ * Deletion is guarded by a local ConfirmPopover.
  *
  * @param {object} props
  * @param {import('../lib/types.js').Battle} props.battle
@@ -43,30 +45,42 @@ function BattleCard({ battle, onRerun, onDelete, index = 0 }) {
   }
 
   return (
-    <article className="animate-arena-fade-in" style={delayStyle}>
+    <article className="animate-arena-fade-in @container" style={delayStyle}>
       <div className="w-full rounded-xl bg-surface-container shadow-md overflow-hidden border border-outline-variant/40">
         <button
           type="button"
           aria-expanded={expanded}
           onClick={() => setExpanded((v) => !v)}
-          className="w-full flex items-center justify-between gap-space-md p-space-md text-left transition-colors hover:bg-surface-container-high"
+          className={[
+            'w-full flex flex-col gap-space-sm p-space-md text-left',
+            'transition-colors hover:bg-surface-container-high',
+            '@md:flex-row @md:items-center @md:justify-between @md:gap-space-md',
+          ].join(' ')}
         >
-          <div className="flex items-center gap-space-md min-w-0">
-            <Badge tone={tone} icon="emoji_events">
-              {label}
-            </Badge>
-            <span className="font-display text-headline-md text-on-surface truncate">
+          <div className="flex min-w-0 flex-col gap-space-xs @md:flex-row @md:items-center @md:gap-space-md">
+            <div className="flex items-center justify-between gap-space-sm @md:justify-start">
+              <Badge tone={tone} icon="emoji_events">
+                {label}
+              </Badge>
+              <span className="font-body text-label-sm text-on-surface-variant @md:hidden">
+                {timestamp}
+              </span>
+            </div>
+            <span className="min-w-0 font-display text-body-lg text-on-surface truncate @md:text-headline-md">
               {battle.problem}
             </span>
           </div>
-          <div className="flex items-center gap-space-sm shrink-0">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary font-display text-label-caps font-bold uppercase tracking-[0.12em]">
-              {score1} / {MAX_SCORE}
-            </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary/10 text-secondary font-display text-label-caps font-bold uppercase tracking-[0.12em]">
-              {score2} / {MAX_SCORE}
-            </span>
-            <span className="font-body text-label-sm text-on-surface-variant hidden sm:inline">
+
+          <div className="flex items-center justify-between gap-space-sm @md:shrink-0 @md:justify-end">
+            <div className="flex items-center gap-space-xs">
+              <span className="inline-flex items-center whitespace-nowrap px-2 py-0.5 rounded bg-primary/10 text-primary font-display text-label-caps font-bold uppercase tracking-[0.12em]">
+                {score1} / {MAX_SCORE}
+              </span>
+              <span className="inline-flex items-center whitespace-nowrap px-2 py-0.5 rounded bg-secondary/10 text-secondary font-display text-label-caps font-bold uppercase tracking-[0.12em]">
+                {score2} / {MAX_SCORE}
+              </span>
+            </div>
+            <span className="hidden whitespace-nowrap font-body text-label-sm text-on-surface-variant @md:inline">
               {timestamp}
             </span>
             <span
@@ -83,9 +97,6 @@ function BattleCard({ battle, onRerun, onDelete, index = 0 }) {
             <p className="font-body text-body-md text-on-surface-variant border-l-2 border-outline-variant pl-space-sm">
               {battle.problem}
             </p>
-            <span className="font-body text-label-sm text-on-surface-variant sm:hidden">
-              {timestamp}
-            </span>
             <ResultView battle={battle} outcome={outcome} compact />
             <div className="flex flex-wrap items-center gap-space-sm">
               <Button

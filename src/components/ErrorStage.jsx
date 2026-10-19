@@ -1,16 +1,19 @@
+import ChallengeCard from './ChallengeCard'
 import ErrorMessage from './ErrorMessage'
 import FighterAvatar from './FighterAvatar'
 
 /**
  * Knocked-out error tableau with Retry + Abort (PROJECT_SCOPE 4.6).
- * The problem text stays in the input, owned by App — this view never touches it.
+ * Shows the persisted problem so the user can see exactly what failed;
+ * the text stays in the input, owned by App — this view never touches it.
  *
  * @param {object} props
  * @param {import('../lib/types.js').BattleError} props.error
+ * @param {string} props.problem The problem that was persisted before the call.
  * @param {() => void} props.onRetry Resubmits the same problem.
  * @param {() => void} props.onAbort Returns the stage to idle.
  */
-function ErrorStage({ error, onRetry, onAbort }) {
+function ErrorStage({ error, problem, onRetry, onAbort }) {
   const codeLabel = {
     network: '[EXCEPTION: NETWORK]',
     server: '[EXCEPTION: HTTP]',
@@ -24,6 +27,9 @@ function ErrorStage({ error, onRetry, onAbort }) {
         <FighterAvatar side="1" variant="knockedOut" size="md" name="FIGHTER 1" />
         <FighterAvatar side="2" variant="knockedOut" size="md" name="FIGHTER 2" />
       </div>
+      {problem && (
+        <ChallengeCard problem={problem} phaseLabel="PHASE: ROUND FAILED" tone="error" />
+      )}
       <ErrorMessage
         message={error.message}
         codeLabel={codeLabel}

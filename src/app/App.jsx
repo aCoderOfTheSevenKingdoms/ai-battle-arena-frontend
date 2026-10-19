@@ -1,70 +1,70 @@
 import { useState } from 'react'
-import ArenaInputZone from '../components/ArenaInputZone.jsx'
-import BattleHistory from '../components/BattleHistory.jsx'
+import ArenaLanding from '../components/ArenaLanding.jsx'
 import BattleStage from '../components/BattleStage.jsx'
-import Header from '../components/Header.jsx'
-import HudChip from '../components/HudChip.jsx'
+import Sidebar from '../components/Sidebar.jsx'
 import { useBattle } from '../hooks/useBattle.js'
 import { useBattleHistory } from '../hooks/useBattleHistory.js'
-import { useSession } from '../hooks/useSession.js'
+import { ARENA_VIEWS } from '../lib/constants.js'
 import { normalizeWinner } from '../lib/normalizeWinner.js'
 
 function App() {
-  const { sessionReady } = useSession()
-  const { battles, storageAvailable, addBattle, deleteBattle, clearAll } =
-    useBattleHistory(sessionReady)
+  const { battles, storageAvailable, persistBattle, addBattle, deleteBattle, clearAll } =
+    useBattleHistory()
 
   const [problem, setProblem] = useState('')
-  const live = useBattle({ onBattleComplete: addBattle })
+  // Landing until the first battle starts; then the input + log move to the sidebar.
+  const [view, setView] = useState(ARENA_VIEWS.LANDING)
+
+  // Persist the problem at submit and mark failed rounds; list only completed battles.
+  const live = useBattle({ onBattleComplete: addBattle, onBattleUpdate: persistBattle })
 
   // The judge's raw verdict is untrusted; resolve it once per battle.
   const outcome = live.battle ? normalizeWinner(live.battle.judgement) : 'draw'
 
   const handleSubmit = () => {
-    live.submit(problem)
+    if (live.submit(problem)) setView(ARENA_VIEWS.ARENA)
   }
 
   const handleRerun = (nextProblem) => {
     setProblem(nextProblem)
+    setView(ARENA_VIEWS.ARENA)
+  }
+
+  const consoleProps = {
+    battles,
+    onRerun: handleRerun,
+    onDelete: deleteBattle,
+    onClearAll: clearAll,
+    storageAvailable,
+    value: problem,
+    onChange: setProblem,
+    onSubmit: handleSubmit,
+    inputDisabled: live.inputLocked,
+    inputLoading: live.isActive,
   }
 
   return (
     <div className="flex min-h-screen flex-col bg-surface-container-lowest arena-grid-bg">
-      <Header battleCount={battles.length} />
+      {view === ARENA_VIEWS.LANDING ? (
+        <ArenaLanding {...consoleProps} />
+      ) : (
+        <div className="flex flex-1 flex-col lg:flex-row">
+          <Sidebar {...consoleProps} className="order-2 lg:order-1" />
 
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-space-xl px-gutter py-space-lg">
-        <ArenaInputZone
-          value={problem}
-          onChange={setProblem}
-          onSubmit={handleSubmit}
-          disabled={live.inputLocked}
-          loading={live.isActive}
-        />
-
-        <BattleStage
-          phase={live.phase}
-          problem={live.problem}
-          battle={live.battle}
-          error={live.error}
-          outcome={outcome}
-          onRevealComplete={live.finishReveal}
-          onRetry={live.retry}
-          onAbort={live.reset}
-        />
-
-        {!storageAvailable && (
-          <HudChip tone="error" icon="cloud_off">
-            History storage is blocked — battles will not survive a refresh.
-          </HudChip>
-        )}
-
-        <BattleHistory
-          battles={battles}
-          onRerun={handleRerun}
-          onDelete={deleteBattle}
-          onClearAll={clearAll}
-        />
-      </main>
+          <main className="order-1 flex flex-1 flex-col gap-space-lg px-gutter py-space-lg lg:order-2">
+            <BattleStage
+              phase={live.phase}
+              problem={live.problem}
+              battle={live.battle}
+              error={live.error}
+              outcome={outcome}
+              onRevealComplete={live.finishReveal}
+              onRetry={live.retry}
+              onAbort={live.reset}
+            />
+          </main>
+        </div>
+      )}
 
       <footer className="border-t border-outline-variant px-gutter py-space-md text-center">
         <p className="text-body-md text-on-surface-variant">

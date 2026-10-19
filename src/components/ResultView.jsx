@@ -130,7 +130,12 @@ function ResultView({
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-lg">
+      <div
+        className={[
+          'grid grid-cols-1 gap-space-lg',
+          compact ? '' : 'lg:grid-cols-2',
+        ].join(' ')}
+      >
         <FighterResultCard
           side="1"
           title="FIGHTER 1"

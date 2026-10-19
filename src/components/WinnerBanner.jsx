@@ -46,56 +46,58 @@ function WinnerBanner({
   const iconName = isDraw ? 'handshake' : 'emoji_events'
 
   return (
-    <div
-      className={[
-        'relative overflow-hidden rounded-xl p-space-lg shadow-2xl panel-inset',
-        'flex flex-col sm:flex-row items-center justify-between gap-space-md',
-        gradient,
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      aria-live="polite"
-    >
-      {showConfetti && <ConfettiBurst />}
+    <div className="@container">
+      <div
+        className={[
+          'relative overflow-hidden rounded-xl p-space-lg shadow-2xl panel-inset',
+          'flex flex-col @md:flex-row items-center justify-between gap-space-md',
+          gradient,
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        aria-live="polite"
+      >
+        {showConfetti && <ConfettiBurst />}
 
-      <div className="flex items-center gap-space-md">
-        <div
-          className={`w-16 h-16 shrink-0 rounded-xl flex items-center justify-center font-bold ${accentIconBg} ${
-            isDraw ? '' : 'shadow-[0_0_24px_rgba(255,177,71,0.6)]'
-          }`}
-        >
-          <span aria-hidden="true" className="material-symbols-outlined text-[36px]">
-            {iconName}
-          </span>
-        </div>
-        <div className="flex flex-col gap-1 text-center sm:text-left">
-          <div className="flex flex-wrap items-center justify-center gap-space-xs">
-            <span
-              className={`px-2 py-0.5 rounded font-display text-label-caps font-bold uppercase tracking-[0.12em] ${accentChip}`}
-            >
-              {defaultTag}
-            </span>
-            <span className="font-display text-label-caps font-bold uppercase tracking-[0.12em] text-tertiary">
-              {subTag}
-            </span>
-          </div>
-          <h2
-            className={`font-display text-display-hero-mobile sm:text-display-hero font-bold uppercase ${accentText} ${
-              isDraw ? '' : isTwo ? 'text-glow-fighter-2' : 'text-glow-fighter-1'
+        <div className="flex items-center gap-space-md">
+          <div
+            className={`w-16 h-16 shrink-0 rounded-xl flex items-center justify-center font-bold ${accentIconBg} ${
+              isDraw ? '' : 'shadow-[0_0_24px_rgba(255,177,71,0.6)]'
             }`}
           >
-            {headline}
-          </h2>
-          {subtitle && (
-            <p className="font-body text-body-md text-on-surface-variant max-w-2xl">
-              {subtitle}
-            </p>
-          )}
+            <span aria-hidden="true" className="material-symbols-outlined text-[36px]">
+              {iconName}
+            </span>
+          </div>
+          <div className="flex flex-col gap-1 text-center @md:text-left">
+            <div className="flex flex-wrap items-center justify-center gap-space-xs @md:justify-start">
+              <span
+                className={`px-2 py-0.5 rounded font-display text-label-caps font-bold uppercase tracking-[0.12em] ${accentChip}`}
+              >
+                {defaultTag}
+              </span>
+              <span className="font-display text-label-caps font-bold uppercase tracking-[0.12em] text-tertiary">
+                {subTag}
+              </span>
+            </div>
+            <h2
+              className={`font-display text-headline-lg-mobile @sm:text-display-hero-mobile @lg:text-display-hero font-bold uppercase break-words ${accentText} ${
+                isDraw ? '' : isTwo ? 'text-glow-fighter-2' : 'text-glow-fighter-1'
+              }`}
+            >
+              {headline}
+            </h2>
+            {subtitle && (
+              <p className="font-body text-body-md text-on-surface-variant max-w-2xl">
+                {subtitle}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
 
-      {actions && <div className="flex items-center gap-space-sm shrink-0">{actions}</div>}
+        {actions && <div className="flex items-center gap-space-sm shrink-0">{actions}</div>}
+      </div>
     </div>
   )
 }

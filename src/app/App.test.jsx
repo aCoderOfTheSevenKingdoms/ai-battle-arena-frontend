@@ -89,9 +89,10 @@ describe('App battle flow', () => {
     expect(screen.getByText('Battle complete.')).toBeTruthy()
     expect(screen.getByText(/Winner:/)).toBeTruthy()
 
-    // Battle is in history (newest first) and the session counter moved.
+    // The console moved the log behind the session-count trigger; the counter moved.
+    expect(screen.getByRole('button', { name: /Battles:\s*01/i })).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: /Battles:\s*01/i }))
     expect(screen.getAllByText(/Write a debounce function/).length).toBeGreaterThan(0)
-    expect(screen.getByText(/Battles:\s*01/i)).toBeTruthy()
 
     // IndexedDB is missing in jsdom, so the non-blocking notice appears.
     expect(screen.getByText(/will not survive a refresh/i)).toBeTruthy()
@@ -110,11 +111,14 @@ describe('App battle flow', () => {
 
     expect(screen.getByText(/Connection lost/)).toBeTruthy()
     expect(screen.getByText(/THE ARENA HAS CRASHED/i)).toBeTruthy()
+    // The persisted problem is still shown on the failed round.
+    expect(screen.getByText(/PHASE: ROUND FAILED/)).toBeTruthy()
 
     const textarea = screen.getByLabelText(/ENTER THE ARENA/)
     expect(textarea.value).toBe('Fix my broken build')
 
     // Failed battles never reach history.
+    fireEvent.click(screen.getByRole('button', { name: /Battles:\s*00/i }))
     expect(screen.getByText(/NO BATTLES YET/i)).toBeTruthy()
 
     setMockFailure('none')

@@ -47,6 +47,12 @@ export const BATTLE_PHASES = Object.freeze({
   ERROR: 'error',
 })
 
+/** Top-level page views: the pre-battle landing vs. the arena console. */
+export const ARENA_VIEWS = Object.freeze({
+  LANDING: 'landing',
+  ARENA: 'arena',
+})
+
 /** Phases in which a battle request is in flight and the input stays locked. */
 export const ACTIVE_PHASES = Object.freeze([
   BATTLE_PHASES.SUBMITTING,

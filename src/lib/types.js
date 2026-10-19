@@ -19,6 +19,9 @@
  * @property {string} solution_1
  * @property {string} solution_2
  * @property {Judgement} judgement
+ * @property {'in_progress' | 'complete' | 'failed'} [status]
+ *   Lifecycle marker: written at submit (in_progress), response (complete),
+ *   or failure (failed). Only `complete` battles are listed in history.
  *
  * @typedef {'fighter1' | 'fighter2' | 'draw'} Outcome
  *   Which side won after normalization; 'draw' when scores tie and nothing matches.

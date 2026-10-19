@@ -5,6 +5,12 @@ import confetti from 'canvas-confetti'
  * One-shot confetti burst in arena colors. No-ops under
  * prefers-reduced-motion; fires once when `fire` is true.
  *
+ * Currently hard-disabled: the burst white-screened the whole app at the
+ * moment of the winner reveal. Re-enable once the crash is diagnosed.
+ */
+const CONFETTI_ENABLED = false
+
+/**
  * @param {object} props
  * @param {boolean} [props.fire=true]
  * @param {string[]} [props.colors] Burst colors (arena fighter/judge palette).
@@ -16,6 +22,7 @@ function ConfettiBurst({
   particleCount = 140,
 }) {
   useEffect(() => {
+    if (!CONFETTI_ENABLED) return
     if (!fire) return
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
 

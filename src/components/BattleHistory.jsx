@@ -30,8 +30,8 @@ function BattleHistory({ battles, onRerun, onDelete, onClearAll, className = '' 
       aria-label="Battle history"
       className={['w-full flex flex-col gap-space-md', className].filter(Boolean).join(' ')}
     >
-      <div className="flex items-center justify-between gap-space-sm">
-        <div className="flex items-center gap-space-sm">
+      <div className="flex flex-wrap items-center justify-between gap-space-sm">
+        <div className="flex min-w-0 items-center gap-space-sm">
           <span
             aria-hidden="true"
             className="material-symbols-outlined text-tertiary text-[22px]"

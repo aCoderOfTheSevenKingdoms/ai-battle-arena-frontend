@@ -68,7 +68,12 @@ function BattleStage({
       )}
 
       {phase === ERROR && error && (
-        <ErrorStage error={error} onRetry={onRetry} onAbort={onAbort} />
+        <ErrorStage
+          error={error}
+          problem={problem}
+          onRetry={onRetry}
+          onAbort={onAbort}
+        />
       )}
     </section>
   )

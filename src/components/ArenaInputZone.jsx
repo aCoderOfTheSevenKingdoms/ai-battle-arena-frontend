@@ -32,6 +32,8 @@ function prefersReducedMotion() {
  * @param {boolean} [props.disabled=false] Locks the whole zone while a battle is in flight.
  * @param {boolean} [props.loading=false] Puts the FIGHT button in its loading state.
  * @param {string[]} [props.examples=EXAMPLE_PROBLEMS] Presets; the first 4 become chips.
+ * @param {boolean} [props.compact=false] Narrow-container layout: stacks vertically and
+ *   drops the preset chips (they overflow a sidebar).
  * @param {string} [props.className]
  */
 function ArenaInputZone({
@@ -41,6 +43,7 @@ function ArenaInputZone({
   disabled = false,
   loading = false,
   examples = EXAMPLE_PROBLEMS,
+  compact = false,
   className = '',
 }) {
   const [typed, setTyped] = useState('')
@@ -99,7 +102,8 @@ function ArenaInputZone({
     <section
       className={[
         'w-full max-w-4xl mx-auto flex flex-col gap-space-md',
-        'rounded-xl bg-surface-container-low shadow-xl p-space-lg',
+        'rounded-xl bg-surface-container-low shadow-xl',
+        compact ? 'p-space-md' : 'p-space-lg',
         className,
       ]
         .filter(Boolean)
@@ -113,27 +117,41 @@ function ArenaInputZone({
         disabled={locked}
       />
 
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
-        <div className="flex flex-wrap items-center gap-space-xs">
-          <span className="font-display text-label-caps text-on-surface-variant uppercase mr-1">
-            LOAD PRESET:
-          </span>
-          {examples.slice(0, MAX_EXAMPLE_CHIPS).map((example) => (
-            <ExampleChip
-              key={example}
-              label={example}
-              disabled={locked}
-              onClick={() => onChange(example)}
-            />
-          ))}
-        </div>
+      <div
+        className={
+          compact
+            ? 'flex flex-col items-stretch gap-space-md'
+            : 'flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md'
+        }
+      >
+        {!compact && (
+          <div className="flex flex-wrap items-center gap-space-xs">
+            <span className="font-display text-label-caps text-on-surface-variant uppercase mr-1">
+              LOAD PRESET:
+            </span>
+            {examples.slice(0, MAX_EXAMPLE_CHIPS).map((example) => (
+              <ExampleChip
+                key={example}
+                label={example}
+                disabled={locked}
+                onClick={() => onChange(example)}
+              />
+            ))}
+          </div>
+        )}
 
-        <div className="flex flex-col items-stretch lg:items-end gap-space-sm shrink-0 w-full lg:w-auto">
+        <div
+          className={
+            compact
+              ? 'flex flex-col items-stretch gap-space-sm'
+              : 'flex flex-col items-stretch lg:items-end gap-space-sm shrink-0 w-full lg:w-auto'
+          }
+        >
           <Button
             variant="fight"
             size="lg"
             icon="swords"
-            className="w-full lg:w-auto"
+            className={compact ? 'w-full' : 'w-full lg:w-auto'}
             loading={loading}
             disabled={!canSubmit}
             onClick={submit}
