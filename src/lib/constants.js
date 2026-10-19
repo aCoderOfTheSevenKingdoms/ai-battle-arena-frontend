@@ -32,3 +32,50 @@ export const STATUS_TICKER_INTERVAL_MS = 2600
 
 /** Delay (ms) for a single count-up tick on ScoreMeter. */
 export const SCORE_COUNTUP_DURATION_MS = 1400
+
+/**
+ * Battle flow state machine phases.
+ * idle -> submitting -> generating -> judging -> revealing -> done, plus error.
+ */
+export const BATTLE_PHASES = Object.freeze({
+  IDLE: 'idle',
+  SUBMITTING: 'submitting',
+  GENERATING: 'generating',
+  JUDGING: 'judging',
+  REVEALING: 'revealing',
+  DONE: 'done',
+  ERROR: 'error',
+})
+
+/** Phases in which a battle request is in flight and the input stays locked. */
+export const ACTIVE_PHASES = Object.freeze([
+  BATTLE_PHASES.SUBMITTING,
+  BATTLE_PHASES.GENERATING,
+  BATTLE_PHASES.JUDGING,
+])
+
+/** Duration (ms) of the "3... 2... 1... FIGHT!" round-start countdown. */
+export const ROUND_COUNTDOWN_MS = 1800
+
+/** Simulated duration (ms) of loading Phase A ("fighters generating"). */
+export const GENERATING_PHASE_MS = 8000
+
+/** Elapsed wait (ms) before the "this can take a moment" reassurance appears. */
+export const REASSURANCE_AFTER_MS = 20000
+
+/** Elapsed wait (ms) before the longer "still working" message appears. */
+export const STILL_WORKING_AFTER_MS = 45000
+
+/** Total duration (ms) of the skippable result reveal sequence. */
+export const REVEAL_DURATION_MS = 5000
+
+/** Network request timeout (ms) for the battle call — used from Phase 3. */
+export const REQUEST_TIMEOUT_MS = 120000
+
+/** Example problems offered as clickable chips under the textarea. */
+export const EXAMPLE_PROBLEMS = Object.freeze([
+  'Debounce a function in JavaScript with trailing edge and cancel support',
+  'Explain the difference between a stack and a queue, with a real use case each',
+  'Write a SQL query to find the second highest salary per department',
+  'Design a rate limiter for a public API and justify your choices',
+])

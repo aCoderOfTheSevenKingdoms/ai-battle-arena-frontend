@@ -1,0 +1,123 @@
+import { useState } from 'react'
+import Badge from './Badge'
+import Button from './Button'
+import ConfirmPopover from './ConfirmPopover'
+import ResultView from './ResultView'
+import { normalizeWinner } from '../lib/normalizeWinner'
+import { MAX_SCORE } from '../lib/constants'
+
+/** Winner badge presentation per normalized outcome — text always carries the meaning. */
+const BADGE = {
+  fighter1: { tone: 'fighter1', label: 'FIGHTER 1' },
+  fighter2: { tone: 'fighter2', label: 'FIGHTER 2' },
+  draw: { tone: 'neutral', label: 'DRAW' },
+}
+
+/**
+ * One collapsible entry in the battle history log. The collapsed row shows a
+ * one-line problem summary, scores, timestamp, and winner badge; expanding
+ * reveals the full problem, the compact ResultView, and re-run / delete
+ * actions. Deletion is guarded by a local ConfirmPopover.
+ *
+ * @param {object} props
+ * @param {import('../lib/types.js').Battle} props.battle
+ * @param {(problem: string) => void} props.onRerun Prefills the input; never submits.
+ * @param {(id: string) => void} props.onDelete
+ * @param {number} [props.index=0] Used only for a capped staggered entrance delay.
+ */
+function BattleCard({ battle, onRerun, onDelete, index = 0 }) {
+  const [expanded, setExpanded] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+
+  const outcome = normalizeWinner(battle.judgement)
+  const { tone, label } = BADGE[outcome] ?? BADGE.draw
+  const score1 = battle.judgement.solution_1.score
+  const score2 = battle.judgement.solution_2.score
+  const timestamp = new Date(battle.createdAt).toLocaleString()
+  const delayStyle = { animationDelay: `${Math.min(index, 6) * 40}ms` }
+
+  const handleDelete = () => {
+    setConfirmOpen(false)
+    setExpanded(false)
+    onDelete(battle.id)
+  }
+
+  return (
+    <article className="animate-arena-fade-in" style={delayStyle}>
+      <div className="w-full rounded-xl bg-surface-container shadow-md overflow-hidden border border-outline-variant/40">
+        <button
+          type="button"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((v) => !v)}
+          className="w-full flex items-center justify-between gap-space-md p-space-md text-left transition-colors hover:bg-surface-container-high"
+        >
+          <div className="flex items-center gap-space-md min-w-0">
+            <Badge tone={tone} icon="emoji_events">
+              {label}
+            </Badge>
+            <span className="font-display text-headline-md text-on-surface truncate">
+              {battle.problem}
+            </span>
+          </div>
+          <div className="flex items-center gap-space-sm shrink-0">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary font-display text-label-caps font-bold uppercase tracking-[0.12em]">
+              {score1} / {MAX_SCORE}
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary/10 text-secondary font-display text-label-caps font-bold uppercase tracking-[0.12em]">
+              {score2} / {MAX_SCORE}
+            </span>
+            <span className="font-body text-label-sm text-on-surface-variant hidden sm:inline">
+              {timestamp}
+            </span>
+            <span
+              aria-hidden="true"
+              className="material-symbols-outlined text-[18px] text-on-surface-variant"
+            >
+              {expanded ? 'expand_less' : 'expand_more'}
+            </span>
+          </div>
+        </button>
+
+        {expanded && (
+          <div className="flex flex-col gap-space-md p-space-md pt-0 animate-arena-fade-in">
+            <p className="font-body text-body-md text-on-surface-variant border-l-2 border-outline-variant pl-space-sm">
+              {battle.problem}
+            </p>
+            <span className="font-body text-label-sm text-on-surface-variant sm:hidden">
+              {timestamp}
+            </span>
+            <ResultView battle={battle} outcome={outcome} compact />
+            <div className="flex flex-wrap items-center gap-space-sm">
+              <Button
+                variant="ghost"
+                size="sm"
+                icon="restart_alt"
+                onClick={() => onRerun(battle.problem)}
+              >
+                Re-run this problem
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                icon="delete"
+                onClick={() => setConfirmOpen(true)}
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <ConfirmPopover
+        open={confirmOpen}
+        message="Remove this battle from the session log? This cannot be undone."
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmOpen(false)}
+      />
+    </article>
+  )
+}
+
+export default BattleCard
