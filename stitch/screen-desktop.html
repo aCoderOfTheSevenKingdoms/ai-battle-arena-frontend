@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>AI Battle Arena</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-surface":"#e1e1f0","tertiary-fixed-dim":"#ffb95f","secondary-fixed-dim":"#ffb0cf","on-tertiary-container":"#704500","error-container":"#93000a","on-primary":"#00363e","tertiary-fixed":"#ffddb8","surface-variant":"#32343f","on-primary-fixed":"#001f25","primary-container":"#22d3ee","surface-bright":"#373844","surface-container-high":"#282934","on-tertiary-fixed-variant":"#653e00","on-secondary":"#63003c","on-secondary-fixed-variant":"#8c0056","tertiary-container":"#ffb147","on-primary-container":"#005763","secondary-fixed":"#ffd9e5","primary-fixed":"#a2eeff","outline-variant":"#3c494c","on-tertiary-fixed":"#2a1700","on-error-container":"#ffdad6","on-primary-fixed-variant":"#004e5a","background":"#11131d","primary-fixed-dim":"#2fd9f4","inverse-surface":"#e1e1f0","surface-container-low":"#191b26","on-error":"#690005","surface-container-highest":"#32343f","on-secondary-fixed":"#3d0023","surface":"#11131d","on-secondary-container":"#ffebf0","error":"#ffb4ab","outline":"#859397","secondary-container":"#d10183","inverse-on-surface":"#2e303b","surface-container-lowest":"#0c0e18","secondary":"#ffb0cf","surface-container":"#1d1f2a","surface-tint":"#2fd9f4","on-tertiary":"#472a00","inverse-primary":"#006877","on-background":"#e1e1f0","primary":"#8aebff","on-surface-variant":"#bbc9cd","surface-dim":"#11131d","tertiary":"#ffd6a7"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"margin":"1.5rem","space-xl":"2.5rem","space-xs":"0.25rem","space-lg":"1.5rem","space-md":"1rem","space-sm":"0.5rem","gutter":"1.25rem"},fontFamily:{"headline-lg":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"],"body-lg":["Inter"],"body-md":["Inter"],"display-hero":["Space Grotesk"],"body-code":["Inter"],"display-hero-mobile":["Space Grotesk"],"hud-timer":["Space Grotesk"],"headline-md":["Space Grotesk"],"label-caps":["Space Grotesk"],"label-sm":["Space Grotesk"]},fontSize:{"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"0.02em",fontWeight:"700"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"0.01em",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"26px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"22px",fontWeight:"400"}],"display-hero":["56px",{lineHeight:"64px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-code":["13px",{lineHeight:"20px",fontWeight:"500"}],"display-hero-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.01em",fontWeight:"700"}],"hud-timer":["48px",{lineHeight:"48px",letterSpacing:"0.05em",fontWeight:"700"}],"headline-md":["22px",{lineHeight:"28px",letterSpacing:"0.03em",fontWeight:"600"}],"label-caps":["12px",{lineHeight:"16px",letterSpacing:"0.12em",fontWeight:"700"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.08em",fontWeight:"600"}]}}}}</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><img alt="AI Battle Arena Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc8wPouiTWtHVDeSlrl1aLgDP3aBy3cPzeVAWCdlHfRPaPjH5l-r8LKdHyHWsYAHnr_FlJB-wS40Sb4mk74CJUac9PFGu1fXj2EDdxc95M53HGtSbQtsKLtMVIwNccz9hifRPPOtTh0QYyQbpWcmXh3mUbTNcPzZsrUpmb6Wm9RIw2mY_GUYXXFmpBai0nHUV13uKofGjB8XVpicCx_-MA9U-tMAxKideKm-dJva3xhfY1VEb71sPr"/><div class="flex flex-col"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md tracking-wider uppercase text-primary">AI BATTLE ARENA</span><span class="px-space-xs py-0.5 rounded bg-surface-container-high text-tertiary font-label-sm text-label-sm uppercase flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">bolt</span>VS HUD</span></div><span class="hidden sm:inline-block font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">DUAL MODEL SYNTHESIS &amp; JUDICIAL BENCHMARK</span></div></div><div class="flex items-center gap-space-md"><nav class="hidden xl:flex items-center gap-space-sm bg-surface-container-low px-space-sm py-1 rounded" data-active-classes="bg-surface-container-high text-primary font-bold"><a aria-current="page" class="px-space-sm py-1 rounded uppercase transition-colors bg-surface-container-high text-primary font-bold" data-path="arena-match" href="#">Arena Match</a><a class="px-space-sm py-1 rounded font-label-caps text-label-caps uppercase transition-colors text-on-surface-variant hover:text-on-surface" data-path="leaderboard" href="#">Leaderboard</a><a class="px-space-sm py-1 rounded font-label-caps text-label-caps uppercase transition-colors text-on-surface-variant hover:text-on-surface" data-path="telemetry-docs" href="#">Telemetry Docs</a></nav><div class="flex items-center gap-space-sm"><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[14px]">sports_kabaddi</span><span>Battles: <strong class="text-on-surface">0</strong></span></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant"><span class="inline-block w-2 h-2 rounded-full bg-primary-container animate-pulse"></span><span>HUD Mode: <strong class="text-primary">ACTIVE</strong></span></div><button aria-label="Toggle Audio and FX" class="flex items-center justify-center h-8 px-space-sm rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">volume_up</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full">
+<!-- Scanline & Ambient Background Grid Overlay -->
+<div class="fixed inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#3c494c_1px,transparent_1px)] [background-size:24px_24px] z-0"></div>
+<!-- ARCADE STATE CONTROLLER HUD STRIP -->
+<div class="relative z-20 w-full px-space-lg py-space-sm bg-surface-container-low/95 backdrop-blur-md shadow-md">
+<div class="max-w-[1440px] mx-auto flex flex-col xl:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-tertiary flex items-center gap-1.5">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></span>
+          SIMULATION STAGE SELECTOR
+        </span>
+<span class="font-body-code text-body-code text-on-surface-variant">| SWITCH LIVE HUD STATE:</span>
+</div>
+<!-- State Pills -->
+<div class="flex items-center flex-wrap gap-1.5 p-1 rounded-xl bg-surface-container-lowest">
+<button class="state-tab-btn active px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all bg-primary text-on-primary font-bold shadow-sm" id="btn-state-idle" onclick="setArenaState('idle')">
+          1. Idle Stage
+        </button>
+<button class="state-tab-btn px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-state-round-start" onclick="setArenaState('round-start')">
+          2. Round Start
+        </button>
+<button class="state-tab-btn px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-state-loading-a" onclick="setArenaState('loading-a')">
+          3. Generating (Phase A)
+        </button>
+<button class="state-tab-btn px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-state-loading-b" onclick="setArenaState('loading-b')">
+          4. Arbiter Deliberation (Phase B)
+        </button>
+<button class="state-tab-btn px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-state-victory" onclick="setArenaState('victory')">
+          5. Result: Victory
+        </button>
+<button class="state-tab-btn px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-state-draw" onclick="setArenaState('draw')">
+          6. Result: Draw
+        </button>
+<button class="state-tab-btn px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-state-crash" onclick="setArenaState('crash')">
+          7. Arena Crash
+        </button>
+<button class="state-tab-btn px-3 py-1.5 rounded font-label-caps text-label-caps uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-state-matrix" onclick="setArenaState('matrix')">
+          8. Component Matrix
+        </button>
+</div>
+<div class="hidden 2xl:flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1 text-primary"><span class="material-symbols-outlined text-[14px]">speed</span> 14ms Latency</span>
+<span class="text-outline-variant">•</span>
+<span class="text-tertiary">3 Battles Stored</span>
+</div>
+</div>
+</div>
+<!-- ARENA AREAL WRAPPER (1440px target max-width) -->
+<div class="relative z-10 w-full max-w-[1440px] mx-auto px-space-md sm:px-space-lg py-space-lg flex flex-col gap-space-xl">
+<!-- TOP ARENA BANNER: TOURNAMENT BADGE & PROMPT ENTRY HUD -->
+<section class="w-full flex flex-col gap-space-lg">
+<!-- High-Intensity Sub-Header Banner -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-lg shadow-xl">
+<div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="relative flex flex-col lg:flex-row items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-lg">
+<!-- Emblem / Crest representation inspired by image -->
+<div class="relative w-20 h-20 shrink-0 rounded-xl bg-surface-container-lowest flex items-center justify-center shadow-lg">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 rounded-xl"></div>
+<span class="material-symbols-outlined text-tertiary text-[44px]">bolt</span>
+<div class="absolute -bottom-1 -left-1 w-3 h-3 bg-primary rounded-full animate-ping opacity-60"></div>
+<div class="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full"></div>
+</div>
+<div class="flex flex-col gap-1 text-center lg:text-left">
+<div class="flex items-center justify-center lg:justify-start gap-space-sm">
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-primary-container text-on-primary">SYNCHRONOUS TOURNAMENT</span>
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-surface-container-high text-tertiary-fixed-dim">SEASON 04</span>
+</div>
+<h1 class="font-display-hero text-display-hero uppercase tracking-tight text-on-surface">
+                TWO MODELS ENTER <span class="text-tertiary">★</span> ONE WINS
+              </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                Real-time algorithmic combat arbitrated by autonomous judicial consensus. Inspect token velocity, memory optimization, and zero-defect runtime architecture.
+              </p>
+</div>
+</div>
+<!-- Tournament Quick Stats Widget -->
+<div class="flex items-center gap-space-md shrink-0 bg-surface-container-low px-space-lg py-space-md rounded-xl">
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-label-caps uppercase text-primary">Cyan Wins</span>
+<span class="font-hud-timer text-hud-timer text-primary-fixed">14</span>
+</div>
+<div class="h-10 w-px bg-outline-variant"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">Stalemates</span>
+<span class="font-hud-timer text-hud-timer text-tertiary-fixed">03</span>
+</div>
+<div class="h-10 w-px bg-outline-variant"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Pink Wins</span>
+<span class="font-hud-timer text-hud-timer text-secondary-fixed">11</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ENTER THE ARENA CONSOLE (INPUT ZONE) -->
+<div class="w-full rounded-xl bg-surface-container-low shadow-xl p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[20px]">sports_mma</span>
+<span class="font-headline-md text-headline-md text-on-surface uppercase tracking-wide">ENTER THE ARENA // COMBAT DISPATCH</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-body-code text-body-code px-space-sm py-0.5 rounded bg-surface-container-high text-primary font-semibold" id="char-counter">
+              142 / 2,000 CHARS
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">[CTRL + ENTER TO FIRE]</span>
+</div>
+</div>
+<!-- Problem Input Area -->
+<div class="relative w-full">
+<textarea class="w-full p-space-md rounded-lg bg-surface-container-lowest text-on-surface font-body-code text-body-code placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container shadow-inner resize-none transition-all" id="arena-prompt" placeholder="Drop a coding challenge, proof verification, or adversarial prompt for both LLM gladiators..." rows="3"></textarea>
+<div class="absolute right-3 bottom-3 flex items-center gap-1 text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+<span class="font-label-sm text-label-sm uppercase">STAGED</span>
+</div>
+</div>
+<!-- Quick Pick Prompt Chips & Fighter Action Trigger -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mr-1">LOAD PRESET:</span>
+<button class="preset-chip px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1 transition-all active:scale-95" onclick="loadPreset(0)">
+<span>⚡</span> Optimal Cache Eviction (Go)
+            </button>
+<button class="preset-chip px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1 transition-all active:scale-95" onclick="loadPreset(1)">
+<span>🛡️</span> Anti-Hallucination Guardrail
+            </button>
+<button class="preset-chip px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1 transition-all active:scale-95" onclick="loadPreset(2)">
+<span>🎮</span> WebGL Shmup Hitbox Quadtree
+            </button>
+<button class="preset-chip px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1 transition-all active:scale-95" onclick="loadPreset(3)">
+<span>🧩</span> Zero-Knowledge Circom Circuit
+            </button>
+</div>
+<!-- Giant Fight Trigger Button -->
+<div class="flex items-center gap-space-sm self-end lg:self-auto shrink-0">
+<button class="group relative px-8 py-3.5 rounded-lg bg-gradient-to-r from-tertiary-container via-tertiary to-tertiary-fixed-dim text-on-tertiary font-headline-md text-headline-md uppercase tracking-wider flex items-center gap-space-sm shadow-[0_0_24px_rgba(255,177,71,0.4)] hover:shadow-[0_0_36px_rgba(255,177,71,0.7)] hover:brightness-110 active:scale-95 transition-all" id="trigger-fight-btn" onclick="executeFight()">
+<span class="material-symbols-outlined text-[24px] text-on-tertiary group-hover:rotate-12 transition-transform">swords</span>
+<span class="font-bold">FIGHT!</span>
+<span class="font-label-sm text-label-sm bg-on-tertiary/20 px-2 py-0.5 rounded text-on-tertiary font-semibold tracking-normal uppercase ml-1">START ROUND</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- DYNAMIC BATTLE HUD STAGES (SWITCHED VIA SCRIPT)                            -->
+<!-- ========================================================================= -->
+<!-- STAGE 1: IDLE STAGE (Face-off HUD) -->
+<div class="arena-stage flex flex-col gap-space-lg" id="stage-idle">
+<!-- 5-2-5 Battle Bar Header -->
+<div class="w-full grid grid-cols-12 gap-space-md items-center">
+<!-- Fighter 1 Pill -->
+<div class="col-span-12 md:col-span-5 p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs shadow-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined text-[24px]">smart_toy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary">NEXUS-7 COGNITION</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">P1 • 128k CONTEXT • DUAL-ATTN</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-primary text-on-primary">ARMED</span>
+</div>
+<!-- Segmented Cyan Health / Readiness Meter -->
+<div class="flex items-center gap-1 mt-1">
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+</div>
+</div>
+<!-- Center VS / Arbiter Indicator -->
+<div class="col-span-12 md:col-span-2 flex flex-col items-center justify-center text-center py-2">
+<div class="w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center shadow-lg relative">
+<span class="font-headline-lg text-headline-lg text-tertiary font-bold tracking-tighter">VS</span>
+<div class="absolute -top-1 w-3 h-3 rounded-full bg-tertiary-container animate-ping"></div>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mt-1">MATCHREADY</span>
+</div>
+<!-- Fighter 2 Pill -->
+<div class="col-span-12 md:col-span-5 p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs shadow-lg">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-secondary-container text-on-secondary-container">ARMED</span>
+<div class="flex items-center gap-space-sm text-right">
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-secondary">VALKYRIE-PRIME</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">P2 • 200k CONTEXT • ULTRA-REASONING</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 flex items-center justify-center text-secondary font-bold">
+<span class="material-symbols-outlined text-[24px]">psychology</span>
+</div>
+</div>
+</div>
+<!-- Segmented Pink Health / Readiness Meter -->
+<div class="flex items-center gap-1 mt-1">
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+<div class="h-3 flex-1 rounded-sm bg-secondary shadow-[0_0_8px_rgba(255,176,207,0.6)]"></div>
+</div>
+</div>
+</div>
+<!-- Main Dual Hologram Stage Showcase -->
+<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-space-lg items-stretch">
+<!-- Cyan Fighter Holo Card -->
+<div class="relative rounded-xl bg-surface-container-low p-space-lg flex flex-col items-center text-center gap-space-md shadow-xl overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent pointer-events-none"></div>
+<!-- Fighter Avatar Display -->
+<div class="relative w-36 h-36 rounded-2xl bg-surface-container-high flex items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.25)]">
+<span class="material-symbols-outlined text-[72px] text-primary">terminal</span>
+<div class="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/30 to-transparent"></div>
+<span class="absolute -bottom-2 px-2.5 py-0.5 rounded font-label-caps text-label-caps uppercase bg-primary text-on-primary">
+              PLAYER 1
+            </span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-lg text-headline-lg text-primary">NEXUS-7 COGNITION</h2>
+<p class="font-body-code text-body-code text-on-surface-variant">Arch: Sparse Mixture-of-Experts • 64 Experts / 8 Active</p>
+</div>
+<!-- Stat Matrix -->
+<div class="w-full grid grid-cols-3 gap-space-sm pt-space-sm">
+<div class="p-2 rounded bg-surface-container flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">TTFT</span>
+<span class="font-headline-md text-headline-md text-primary">180ms</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Throughput</span>
+<span class="font-headline-md text-headline-md text-primary">134 t/s</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Elo Rating</span>
+<span class="font-headline-md text-headline-md text-primary">1,482</span>
+</div>
+</div>
+<!-- Empty Viewport Prompt Callout -->
+<div class="w-full mt-2 p-space-md rounded-lg bg-surface-container-lowest text-left flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">tips_and_updates</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Fighter 1 standing by. Ready to compile zero-copy concurrent data pipelines or tackle strict cryptographic verification.
+            </p>
+</div>
+</div>
+<!-- Magenta Fighter Holo Card -->
+<div class="relative rounded-xl bg-surface-container-low p-space-lg flex flex-col items-center text-center gap-space-md shadow-xl overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-b from-secondary/10 via-transparent to-transparent pointer-events-none"></div>
+<!-- Fighter Avatar Display -->
+<div class="relative w-36 h-36 rounded-2xl bg-surface-container-high flex items-center justify-center shadow-[0_0_30px_rgba(255,176,207,0.25)]">
+<span class="material-symbols-outlined text-[72px] text-secondary">memory</span>
+<div class="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/30 to-transparent"></div>
+<span class="absolute -bottom-2 px-2.5 py-0.5 rounded font-label-caps text-label-caps uppercase bg-secondary text-on-secondary">
+              PLAYER 2
+            </span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-lg text-headline-lg text-secondary">VALKYRIE-PRIME</h2>
+<p class="font-body-code text-body-code text-on-surface-variant">Arch: Dense Reasoning Transformer • Chain-of-Verification</p>
+</div>
+<!-- Stat Matrix -->
+<div class="w-full grid grid-cols-3 gap-space-sm pt-space-sm">
+<div class="p-2 rounded bg-surface-container flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">TTFT</span>
+<span class="font-headline-md text-headline-md text-secondary">210ms</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Throughput</span>
+<span class="font-headline-md text-headline-md text-secondary">112 t/s</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Elo Rating</span>
+<span class="font-headline-md text-headline-md text-secondary">1,495</span>
+</div>
+</div>
+<!-- Empty Viewport Prompt Callout -->
+<div class="w-full mt-2 p-space-md rounded-lg bg-surface-container-lowest text-left flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">neurology</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Fighter 2 standing by. Excels in multi-step theorem proving, complex algorithmic refactoring, and AST manipulation.
+            </p>
+</div>
+</div>
+</div>
+<!-- Arbiter Spotlight Capsule -->
+<div class="w-full p-space-md rounded-xl bg-surface-container flex items-center justify-between shadow-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">THE ARBITER (AI JUDGE SYSTEM)</span>
+<span class="font-body-md text-body-md text-on-surface">Standing by on Bench Node #9 • Objective scoring rubric loaded: Correctness (40%), Complexity (30%), Idiomatic Clarity (30%).</span>
+</div>
+</div>
+<span class="hidden sm:inline-block font-body-code text-body-code text-on-surface-variant bg-surface-container-high px-3 py-1 rounded">
+          STATUS: LISTENING
+        </span>
+</div>
+</div>
+<!-- STAGE 2: ROUND START COUNTDOWN OVERLAY -->
+<div class="arena-stage hidden flex-col items-center justify-center min-h-[460px] relative rounded-2xl bg-surface-container-lowest p-space-xl overflow-hidden shadow-2xl" id="stage-round-start">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/15 via-transparent to-secondary/15"></div>
+<!-- Speedline FX SVG -->
+<svg class="absolute inset-0 w-full h-full opacity-10 pointer-events-none" preserveaspectratio="none" viewbox="0 0 800 400">
+<line stroke="currentColor" stroke-width="3" x1="0" x2="800" y1="200" y2="200"></line>
+<line stroke="currentColor" stroke-width="1.5" x1="0" x2="800" y1="80" y2="20"></line>
+<line stroke="currentColor" stroke-width="1.5" x1="0" x2="800" y1="320" y2="380"></line>
+</svg>
+<div class="relative z-10 flex flex-col items-center text-center gap-space-md">
+<div class="px-4 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-caps text-label-caps uppercase tracking-widest animate-pulse">
+          STAGE ENGAGED // SYNCHRONOUS INGESTION
+        </div>
+<h2 class="font-display-hero text-display-hero uppercase tracking-tighter text-on-surface drop-shadow-[0_0_35px_rgba(255,255,255,0.4)]">
+          ROUND 01 • <span class="text-tertiary">FIGHT!</span>
+</h2>
+<!-- Giant Arcade Countdown Timer -->
+<div class="w-32 h-32 rounded-full bg-surface-container flex items-center justify-center shadow-[0_0_40px_rgba(255,177,71,0.5)] my-space-sm">
+<span class="font-hud-timer text-[64px] leading-none text-tertiary font-bold animate-bounce">03</span>
+</div>
+<p class="font-headline-md text-headline-md text-primary uppercase tracking-wide">
+          DISPATCHING TOKEN WORKLOAD TO CLUSTERS A &amp; B
+        </p>
+<span class="font-body-code text-body-code text-on-surface-variant">
+          Challenge: Optimal Self-Balancing Red-Black Tree in Rust with Zero Unsafe Code
+        </span>
+</div>
+</div>
+<!-- STAGE 3: LOADING PHASE A (Generating Tokens) -->
+<div class="arena-stage hidden flex-col gap-space-lg" id="stage-loading-a">
+<!-- Challenge Active Card -->
+<div class="w-full p-space-md rounded-xl bg-surface-container flex items-center justify-between shadow-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">bolt</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">ACTIVE CONFLICT:</span>
+<span class="font-body-code text-body-code text-on-surface font-semibold">"Implement zero-allocation bounded ring buffer with lock-free atomics in Go"</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary bg-surface-container-high px-2.5 py-1 rounded uppercase">PHASE: INFERENCE GENERATION</span>
+</div>
+<!-- Generating Split Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Fighter 1 Generating Card -->
+<div class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-md shadow-xl relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px] animate-spin">sync</span>
+<span class="font-headline-md text-headline-md text-primary">NEXUS-7 SYNTHESIZING...</span>
+</div>
+<span class="font-body-code text-body-code text-primary font-bold">68% / 1,024 TOKENS</span>
+</div>
+<!-- Indeterminate Cyan Charge Meter -->
+<div class="w-full h-3 rounded-full bg-surface-container-lowest overflow-hidden p-0.5">
+<div class="h-full bg-primary rounded-full w-[68%] shadow-[0_0_12px_rgba(34,211,238,0.8)] transition-all duration-300"></div>
+</div>
+<!-- Live Streaming Code Simulation Viewport -->
+<div class="w-full h-64 p-space-md rounded-lg bg-surface-container-lowest font-body-code text-body-code text-on-surface overflow-hidden relative">
+<div class="text-outline-variant font-label-sm text-label-sm mb-2">// NEXUS-7 STREAM [STREAMING VIA HTTP/2 SSE]</div>
+<pre class="text-on-surface leading-5 font-mono text-sm"><code>package ringbuffer
+
+import (
+    "sync/atomic"
+    "unsafe"
+)
+
+type BoundedRing[T any] struct {
+    head uint64
+    tail uint64
+    mask uint64
+    nodes []node[T]
+}
+
+<span class="text-primary animate-pulse font-bold">func (r *BoundedRing[T]) Push(item T) bool {</span>
+<span class="text-on-surface-variant">    // Atomic compare-and-swap generation in progress...</span>
+<span class="inline-block w-2 h-4 bg-primary ml-1 animate-ping"></span></code></pre>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>VELOCITY: 142.6 TOKENS/SEC</span>
+<span>MEM FOOTPRINT: 12.4 MB</span>
+</div>
+</div>
+<!-- Fighter 2 Generating Card -->
+<div class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-md shadow-xl relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px] animate-spin">sync</span>
+<span class="font-headline-md text-headline-md text-secondary">VALKYRIE-PRIME SYNTHESIZING...</span>
+</div>
+<span class="font-body-code text-body-code text-secondary font-bold">74% / 1,180 TOKENS</span>
+</div>
+<!-- Indeterminate Pink Charge Meter -->
+<div class="w-full h-3 rounded-full bg-surface-container-lowest overflow-hidden p-0.5">
+<div class="h-full bg-secondary rounded-full w-[74%] shadow-[0_0_12px_rgba(255,176,207,0.8)] transition-all duration-300"></div>
+</div>
+<!-- Live Streaming Code Simulation Viewport -->
+<div class="w-full h-64 p-space-md rounded-lg bg-surface-container-lowest font-body-code text-body-code text-on-surface overflow-hidden relative">
+<div class="text-outline-variant font-label-sm text-label-sm mb-2">// VALKYRIE-PRIME STREAM [CHAIN-OF-REASONING ACTIVE]</div>
+<pre class="text-on-surface leading-5 font-mono text-sm"><code>package lockfree
+
+import "runtime"
+
+// Designing non-blocking ring with padding to eliminate false sharing:
+type CachePaddedRing struct {
+    _headPadding [56]byte
+    head         uint64
+    _tailPadding [56]byte
+    tail         uint64
+}
+
+<span class="text-secondary animate-pulse font-bold">func (q *CachePaddedRing) Enqueue(v any) error {</span>
+<span class="text-on-surface-variant">    // Resolving CPU cache-line alignment...</span>
+<span class="inline-block w-2 h-4 bg-secondary ml-1 animate-ping"></span></code></pre>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>VELOCITY: 118.2 TOKENS/SEC</span>
+<span>MEM FOOTPRINT: 18.2 MB</span>
+</div>
+</div>
+</div>
+<!-- Live Humorous Status Ticker -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest flex items-center justify-center gap-space-sm text-center">
+<span class="material-symbols-outlined text-tertiary text-[18px]">terminal</span>
+<span class="font-body-code text-body-code text-tertiary">
+          Fighter 1 is sharpening token embeddings • Fighter 2 is aggressively pruning hallucination branches...
+        </span>
+</div>
+</div>
+<!-- STAGE 4: LOADING PHASE B (Arbiter Deliberation) -->
+<div class="arena-stage hidden flex-col items-center justify-center py-space-xl gap-space-lg rounded-2xl bg-surface-container-low shadow-xl relative overflow-hidden" id="stage-loading-b">
+<!-- Golden Spotlight Visual -->
+<div class="absolute -top-32 w-96 h-96 rounded-full bg-tertiary-container/20 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center text-center max-w-xl gap-space-md">
+<!-- Floating Scale of Justice Avatar -->
+<div class="w-24 h-24 rounded-full bg-surface-container flex items-center justify-center shadow-[0_0_30px_rgba(255,177,71,0.5)]">
+<span class="material-symbols-outlined text-tertiary text-[48px] animate-pulse">balance</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-label-caps uppercase text-tertiary tracking-widest">JUDICIAL ARBITRATION BENCH</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase">THE ARBITER IS DELIBERATING</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Weighing algorithmic elegance, edge-case memory safety, Big-O computational bounds, and idiomatic correctness.
+          </p>
+</div>
+<!-- Live Evaluation Criteria Bar -->
+<div class="w-full flex flex-col gap-space-xs p-space-md rounded-lg bg-surface-container-lowest">
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>AUDITING 2,204 COMBINED TOKENS</span>
+<span class="text-tertiary">EST. TIME: 1.8s REMAINING</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-tertiary rounded-full w-[84%] animate-pulse"></div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span>Both models have finished compiling solutions. No modifications permitted.</span>
+</div>
+</div>
+</div>
+<!-- STAGE 5: RESULT REVEAL - VICTORY SHOWCASE -->
+<div class="arena-stage hidden flex-col gap-space-lg" id="stage-victory">
+<!-- Winner Banner -->
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary-container/20 via-surface-container to-surface-container p-space-lg shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-16 h-16 rounded-xl bg-tertiary text-on-tertiary flex items-center justify-center font-bold shadow-[0_0_24px_rgba(255,177,71,0.6)]">
+<span class="material-symbols-outlined text-[36px]">emoji_events</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-primary text-on-primary">DECISIVE KNOCKOUT</span>
+<span class="font-label-caps text-label-caps uppercase text-tertiary">MATCH VERDICT CERTIFIED</span>
+</div>
+<h2 class="font-display-hero-mobile sm:font-display-hero text-display-hero-mobile sm:text-display-hero text-primary uppercase">
+              NEXUS-7 COGNITION WINS!
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Awarded high marks for strict zero-unsafe memory encapsulation and O(1) concurrent amortized dequeue performance.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-4 py-2 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-caps text-label-caps uppercase flex items-center gap-1.5 transition-all" onclick="copySolution('p1')">
+<span class="material-symbols-outlined text-[16px]">content_copy</span> Copy Solution
+          </button>
+<button class="px-4 py-2 rounded bg-primary text-on-primary font-label-caps text-label-caps uppercase flex items-center gap-1.5 transition-all shadow-md hover:brightness-110" onclick="setArenaState('idle')">
+<span class="material-symbols-outlined text-[16px]">replay</span> Rematch
+          </button>
+</div>
+</div>
+<!-- Comparative Side-by-Side Result Cards -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-space-lg">
+<!-- WINNER CARD (Left - Cyan) -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-[0_0_20px_rgba(34,211,238,0.25)] flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="px-2.5 py-1 rounded bg-tertiary text-on-tertiary font-label-caps text-label-caps uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">military_tech</span> RECOMMENDED CODE
+              </span>
+<span class="font-headline-md text-headline-md text-primary">NEXUS-7 COGNITION</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">JUDGE SCORE:</span>
+<span class="font-hud-timer text-[32px] leading-none text-primary font-bold">9.6</span><span class="text-on-surface-variant font-label-sm">/10</span>
+</div>
+</div>
+<!-- Segmented Health / Score Bar (Full glow) -->
+<div class="flex items-center gap-1">
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-primary shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+</div>
+<!-- Arbiter Remark Bubble -->
+<div class="p-space-md rounded-lg bg-surface-container flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[20px] mt-0.5">gavel</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">ARBITER APPRAISAL</span>
+<p class="font-body-md text-body-md text-on-surface">
+                "Outstanding lock-free implementation. Proper use of atomic load acquire/release patterns eliminates races without lock contention. Meets 100% of benchmark requirements."
+              </p>
+</div>
+</div>
+<!-- Solution Snippet -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest font-body-code text-body-code text-on-surface overflow-x-auto">
+<pre class="font-mono text-xs leading-5"><code><span class="text-tertiary">// Lock-Free Bounded Queue (Go 1.22+)</span>
+<span class="text-primary">type</span> Node[T any] <span class="text-primary">struct</span> {
+    value atomic.Pointer[T]
+}
+
+<span class="text-primary">func</span> (q *RingBuffer[T]) Enqueue(item *T) <span class="text-primary">bool</span> {
+    <span class="text-on-surface-variant">// Acquire tail slot using CAS operation</span>
+    <span class="text-primary">for</span> {
+        tail := atomic.LoadUint64(&amp;q.tail)
+        slot := &amp;q.buffer[tail &amp; q.mask]
+        <span class="text-primary">if</span> slot.value.CompareAndSwap(<span class="text-secondary">nil</span>, item) {
+            atomic.AddUint64(&amp;q.tail, 1)
+            <span class="text-primary">return true</span>
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<!-- RUNNER UP CARD (Right - Magenta) -->
+<div class="p-space-lg rounded-xl bg-surface-container-low opacity-90 flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps uppercase">
+                RUNNER-UP
+              </span>
+<span class="font-headline-md text-headline-md text-secondary">VALKYRIE-PRIME</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">JUDGE SCORE:</span>
+<span class="font-hud-timer text-[32px] leading-none text-secondary font-bold">7.8</span><span class="text-on-surface-variant font-label-sm">/10</span>
+</div>
+</div>
+<!-- Segmented Health / Score Bar (Depleted) -->
+<div class="flex items-center gap-1">
+<div class="h-2.5 flex-1 rounded-sm bg-secondary"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-secondary"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-secondary"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-secondary"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-secondary"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-secondary"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-secondary"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-surface-variant"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-surface-variant"></div>
+<div class="h-2.5 flex-1 rounded-sm bg-surface-variant"></div>
+</div>
+<!-- Arbiter Remark Bubble -->
+<div class="p-space-md rounded-lg bg-surface-container flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-outline-variant text-[20px] mt-0.5">rule</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">ARBITER CRITIQUE</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                "Solid algorithm with cache-line padding, but introduces a subtle spin-lock fallback under heavy congestion that causes 12% higher CPU context switches."
+              </p>
+</div>
+</div>
+<!-- Solution Snippet -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest font-body-code text-body-code text-on-surface overflow-x-auto">
+<pre class="font-mono text-xs leading-5"><code><span class="text-tertiary">// Spin-Fallback Cache Ring</span>
+<span class="text-secondary">type</span> SpinBuffer <span class="text-secondary">struct</span> {
+    cursor uint64
+    lock   uint32
+}
+
+<span class="text-secondary">func</span> (s *SpinBuffer) Push(val any) {
+    <span class="text-on-surface-variant">// Fallback spin lock identified by judge</span>
+    <span class="text-secondary">for</span> !atomic.CompareAndSwapUint32(&amp;s.lock, 0, 1) {
+        runtime.Gosched()
+    }
+    defer atomic.StoreUint32(&amp;s.lock, 0)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<!-- STAGE 6: RESULT - DRAW VARIANT -->
+<div class="arena-stage hidden flex-col gap-space-lg" id="stage-draw">
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-lg shadow-xl flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-16 h-16 rounded-xl bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[36px]">handshake</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-tertiary text-on-tertiary">PERFECT PARITY</span>
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">ARBITER VERDICT: DEAD HEAT</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg uppercase text-on-surface">
+              STALEMATE // CO-CHAMPIONS (9.2 vs 9.2)
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Both contenders achieved zero-defect output with indistinguishable algorithmic complexity and sub-millisecond execution times.
+            </p>
+</div>
+</div>
+<button class="px-5 py-2.5 rounded bg-tertiary-container text-on-tertiary-container font-label-caps text-label-caps uppercase flex items-center gap-2 font-bold shadow-md hover:brightness-110" onclick="setArenaState('round-start')">
+<span class="material-symbols-outlined text-[18px]">sports_kabaddi</span> TIEBREAKER SUDDEN DEATH
+        </button>
+</div>
+<!-- Balanced Side-by-Side Dual Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<div class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-sm shadow-md">
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">NEXUS-7 (9.2 / 10)</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary font-label-caps text-label-caps">CO-CHAMPION</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Superior algorithmic brevity and zero external dependencies.</p>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-sm shadow-md">
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-secondary">VALKYRIE-PRIME (9.2 / 10)</span>
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps">CO-CHAMPION</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Comprehensive inline edge-case validation and exhaustive test coverage.</p>
+</div>
+</div>
+</div>
+<!-- STAGE 7: ARENA CRASH (ERROR STATE) -->
+<div class="arena-stage hidden flex-col items-center justify-center py-space-xl px-space-lg rounded-2xl bg-surface-container-lowest shadow-2xl relative overflow-hidden text-center gap-space-md" id="stage-crash">
+<div class="absolute inset-0 bg-error-container/10 pointer-events-none"></div>
+<!-- Fault Icons & Dizzy Sparks -->
+<div class="relative w-24 h-24 rounded-2xl bg-surface-container-high flex items-center justify-center shadow-[0_0_30px_rgba(255,180,171,0.3)]">
+<span class="material-symbols-outlined text-error text-[54px] animate-pulse">dangerous</span>
+<span class="absolute -top-2 -right-2 text-tertiary text-xl font-bold">💥</span>
+<span class="absolute -bottom-2 -left-2 text-primary text-xl font-bold">⚡</span>
+</div>
+<div class="flex flex-col gap-1 max-w-lg">
+<span class="font-label-caps text-label-caps uppercase text-error tracking-widest font-bold">
+          [EXCEPTION: CUDA_OUT_OF_MEMORY_0x88F]
+        </span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase">
+          THE ARENA HAS CRASHED!
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          GPU node cluster exhausted VRAM during concurrent multi-turn tensor expansion. Neither gladiator could complete evaluation. Your problem statement has been preserved.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm mt-space-sm">
+<button class="px-6 py-3 rounded-lg bg-error text-on-error font-headline-md text-headline-md uppercase flex items-center gap-2 shadow-lg hover:brightness-110" onclick="setArenaState('loading-a')">
+<span class="material-symbols-outlined text-[20px]">restart_alt</span> REBOOT BENCHMARK
+        </button>
+<button class="px-4 py-3 rounded-lg bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase hover:bg-surface-bright" onclick="setArenaState('idle')">
+          ABORT TO LOBBY
+        </button>
+</div>
+</div>
+<!-- STAGE 8: COMPONENT MATRIX (DEV SPEC SHOWCASE) -->
+<div class="arena-stage hidden flex-col gap-space-lg" id="stage-matrix">
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-label-caps uppercase text-primary">DESIGN SYSTEM ATLAS</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase">ARCADE HUD COMPONENT MATRIX</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Interactive verification panel for states, tokens, and tactile micro-interactions.</p>
+</div>
+<!-- Matrix Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Fight Button States -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">1. FIGHT BUTTON VARIANTS</span>
+<button class="w-full py-2.5 rounded bg-tertiary-container text-on-tertiary font-headline-md text-headline-md uppercase font-bold shadow-md">
+            DEFAULT STATE
+          </button>
+<button class="w-full py-2.5 rounded bg-gradient-to-r from-tertiary-container via-tertiary to-tertiary-fixed-dim text-on-tertiary font-headline-md text-headline-md uppercase font-bold shadow-[0_0_20px_rgba(255,177,71,0.7)]">
+            HOVER GLOW STATE
+          </button>
+<button class="w-full py-2.5 rounded bg-surface-container-highest text-outline font-headline-md text-headline-md uppercase font-bold cursor-not-allowed">
+            DISABLED / LOCKED
+          </button>
+</div>
+<!-- Metric Score Meters -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-primary">2. SEGMENTED ENERGY METERS</span>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Empty (0 / 10)</span>
+<div class="flex gap-1">
+<div class="h-2 flex-1 rounded-sm bg-surface-variant"></div>
+<div class="h-2 flex-1 rounded-sm bg-surface-variant"></div>
+<div class="h-2 flex-1 rounded-sm bg-surface-variant"></div>
+<div class="h-2 flex-1 rounded-sm bg-surface-variant"></div>
+<div class="h-2 flex-1 rounded-sm bg-surface-variant"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Half Charged (5 / 10)</span>
+<div class="flex gap-1">
+<div class="h-2 flex-1 rounded-sm bg-primary"></div>
+<div class="h-2 flex-1 rounded-sm bg-primary"></div>
+<div class="h-2 flex-1 rounded-sm bg-primary"></div>
+<div class="h-2 flex-1 rounded-sm bg-surface-variant"></div>
+<div class="h-2 flex-1 rounded-sm bg-surface-variant"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Critical Full Overdrive (10 / 10)</span>
+<div class="flex gap-1">
+<div class="h-2 flex-1 rounded-sm bg-secondary shadow-[0_0_6px_rgba(255,176,207,0.7)]"></div>
+<div class="h-2 flex-1 rounded-sm bg-secondary shadow-[0_0_6px_rgba(255,176,207,0.7)]"></div>
+<div class="h-2 flex-1 rounded-sm bg-secondary shadow-[0_0_6px_rgba(255,176,207,0.7)]"></div>
+<div class="h-2 flex-1 rounded-sm bg-secondary shadow-[0_0_6px_rgba(255,176,207,0.7)]"></div>
+<div class="h-2 flex-1 rounded-sm bg-secondary shadow-[0_0_6px_rgba(255,176,207,0.7)]"></div>
+</div>
+</div>
+</div>
+<!-- Presets & Chips -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-secondary">3. INTERACTIVE CHIPS</span>
+<div class="px-3 py-1.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+            Default Inactive Chip
+          </div>
+<div class="px-3 py-1.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm font-bold flex items-center justify-between">
+<span>Selected Cyan Filter</span>
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="px-3 py-1.5 rounded bg-secondary-container text-on-secondary font-label-sm text-label-sm font-bold flex items-center justify-between">
+<span>Active Magenta Allegiance</span>
+<span class="material-symbols-outlined text-[14px]">flash_on</span>
+</div>
+</div>
+<!-- Badge Holograms -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">4. ARBITER BADGES</span>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">verified</span>
+<span class="font-body-code text-body-code text-on-surface">Consensus Certified</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">shutter_speed</span>
+<span class="font-body-code text-body-code text-on-surface">Sub-200ms Latency</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">shield</span>
+<span class="font-body-code text-body-code text-on-surface">Zero Hallucinations</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- BATTLE HISTORY & SESSION ARCHIVE                                          -->
+<!-- ========================================================================= -->
+<section class="w-full flex flex-col gap-space-md mt-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[22px]">history</span>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase tracking-wide">
+            SESSION COMBAT LOG <span class="text-tertiary">(3 RECORDED)</span>
+</h3>
+</div>
+<button class="px-3 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-error font-label-caps text-label-caps uppercase flex items-center gap-1 transition-colors" onclick="clearSessionHistory()">
+<span class="material-symbols-outlined text-[16px]">delete_sweep</span> CLEAR SESSION LOG
+        </button>
+</div>
+<!-- Log Entries Container -->
+<div class="flex flex-col gap-space-sm" id="history-container">
+<!-- Entry 1: Expanded Detailed Card -->
+<div class="w-full rounded-xl bg-surface-container p-space-md flex flex-col gap-space-md shadow-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-primary text-on-primary">
+                WINNER: NEXUS-7
+              </span>
+<span class="font-headline-md text-headline-md text-on-surface">Zero-Copy Ring Buffer in Go</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant">
+<span>SCORE: 9.6 vs 7.8</span>
+<span>•</span>
+<span>2 MINUTES AGO</span>
+<button class="p-1 rounded hover:bg-surface-container-high text-primary" onclick="toggleCardDetail('detail-1')">
+<span class="material-symbols-outlined text-[18px]">expand_less</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm pt-space-xs" id="detail-1">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="p-space-sm rounded bg-surface-container-lowest font-body-code text-body-code text-primary">
+<div class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-1">NEXUS-7 SOLUTION:</div>
+<code class="block overflow-x-auto text-xs">type BoundedRing[T any] struct { head, tail uint64; mask uint64; nodes []node[T] }</code>
+</div>
+<div class="p-space-sm rounded bg-surface-container-lowest font-body-code text-body-code text-secondary">
+<div class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-1">VALKYRIE-PRIME SOLUTION:</div>
+<code class="block overflow-x-auto text-xs">type SpinBuffer struct { cursor uint64; lock uint32 } // Runtime Gosched fallback</code>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-md text-body-md text-on-surface-variant italic">Arbiter: "Exceptional CAS atomic discipline."</span>
+<button class="px-3 py-1 rounded bg-surface-container-high hover:bg-surface-bright text-primary font-label-caps text-label-caps uppercase flex items-center gap-1" onclick="loadPreset(0)">
+<span class="material-symbols-outlined text-[14px]">replay</span> RE-RUN THIS PROBLEM
+              </button>
+</div>
+</div>
+</div>
+<!-- Entry 2: Collapsed Card -->
+<div class="w-full rounded-xl bg-surface-container p-space-md flex items-center justify-between shadow-sm hover:bg-surface-container-high transition-colors cursor-pointer" onclick="toggleCardDetail('detail-2')">
+<div class="flex items-center gap-space-md">
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-secondary text-on-secondary">
+              WINNER: VALKYRIE
+            </span>
+<span class="font-headline-md text-headline-md text-on-surface">Red-Black Tree with Strict Invariant Verification</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant">
+<span>SCORE: 8.4 vs 9.7</span>
+<span>•</span>
+<span>14 MINUTES AGO</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Entry 3: Collapsed Card (Draw) -->
+<div class="w-full rounded-xl bg-surface-container p-space-md flex items-center justify-between shadow-sm hover:bg-surface-container-high transition-colors cursor-pointer" onclick="setArenaState('draw')">
+<div class="flex items-center gap-space-md">
+<span class="px-2 py-0.5 rounded font-label-caps text-label-caps uppercase bg-tertiary text-on-tertiary">
+              DRAW / STALEMATE
+            </span>
+<span class="font-headline-md text-headline-md text-on-surface">Adversarial Prompt Jailbreak Resilience Test</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant">
+<span>SCORE: 9.2 vs 9.2</span>
+<span>•</span>
+<span>28 MINUTES AGO</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<script>
+  // Presets database
+  const PRESET_PROBLEMS = [
+    "Write an optimal zero-allocation bounded lock-free ring buffer in Go using atomic CAS operations and cache-line padding to prevent false sharing.",
+    "Draft a robust anti-hallucination prompt defense framework for an autonomous SQL query generator, ensuring zero schema leakage.",
+    "Implement a high-performance 2D hitbox collision quadtree in WebGL with broadphase bounding boxes and zero garbage collection spikes.",
+    "Construct a Zero-Knowledge Proof circuit in Circom that verifies knowledge of a hash preimage without revealing input leaves."
+  ];
+
+  // Set preset prompt
+  function loadPreset(index) {
+    const textarea = document.getElementById('arena-prompt');
+    if (textarea && PRESET_PROBLEMS[index]) {
+      textarea.value = PRESET_PROBLEMS[index];
+      updateCharCount();
+      textarea.focus();
+    }
+  }
+
+  // Update character count
+  function updateCharCount() {
+    const textarea = document.getElementById('arena-prompt');
+    const counter = document.getElementById('char-counter');
+    if (textarea && counter) {
+      const len = textarea.value.length;
+      counter.innerText = `${len} / 2,000 CHARS`;
+      if (len > 1800) {
+        counter.classList.remove('text-primary');
+        counter.classList.add('text-error');
+      } else {
+        counter.classList.add('text-primary');
+        counter.classList.remove('text-error');
+      }
+    }
+  }
+
+  // Live state switcher
+  function setArenaState(stateId) {
+    // Hide all stages
+    const stages = document.querySelectorAll('.arena-stage');
+    stages.forEach(st => {
+      st.classList.add('hidden');
+      st.classList.remove('flex');
+    });
+
+    // Show target stage
+    const target = document.getElementById(`stage-${stateId}`);
+    if (target) {
+      target.classList.remove('hidden');
+      target.classList.add('flex');
+    }
+
+    // Update active tab button style
+    const buttons = document.querySelectorAll('.state-tab-btn');
+    buttons.forEach(btn => {
+      btn.classList.remove('bg-primary', 'text-on-primary', 'font-bold', 'shadow-sm');
+      btn.classList.add('text-on-surface-variant');
+    });
+
+    const activeBtn = document.getElementById(`btn-state-${stateId}`);
+    if (activeBtn) {
+      activeBtn.classList.remove('text-on-surface-variant');
+      activeBtn.classList.add('bg-primary', 'text-on-primary', 'font-bold', 'shadow-sm');
+    }
+  }
+
+  // Simulate fight launch sequence
+  function executeFight() {
+    setArenaState('round-start');
+    setTimeout(() => {
+      setArenaState('loading-a');
+      setTimeout(() => {
+        setArenaState('loading-b');
+        setTimeout(() => {
+          setArenaState('victory');
+        }, 1600);
+      }, 2000);
+    }, 1200);
+  }
+
+  // Expand / collapse card detail
+  function toggleCardDetail(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.toggle('hidden');
+    }
+  }
+
+  // Copy solution mock notification
+  function copySolution(model) {
+    navigator.clipboard?.writeText("// Copied AI Battle Arena Solution from " + model);
+    alert("Solution copied to clipboard!");
+  }
+
+  // Clear Session History Mock
+  function clearSessionHistory() {
+    const container = document.getElementById('history-container');
+    if (container) {
+      container.innerHTML = '<div class="p-space-md text-center text-on-surface-variant font-body-code rounded-xl bg-surface-container">Combat log cleared for this browser session.</div>';
+    }
+  }
+
+  // Keyboard shortcut listener: Ctrl + Enter
+  document.addEventListener('DOMContentLoaded', () => {
+    const textarea = document.getElementById('arena-prompt');
+    if (textarea) {
+      textarea.addEventListener('input', updateCharCount);
+      textarea.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          executeFight();
+        }
+      });
+      // Load initial default challenge
+      loadPreset(0);
+    }
+  });
+</script></main><footer class="w-full bg-surface-container-lowest py-space-md"><div class="w-full px-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"><p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">History is kept only for this browser session. AI Battle Arena v2.4 • Powered by Dual-Engine Benchmarks</p><div class="flex items-center gap-space-md font-label-sm text-label-sm text-on-surface-variant"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">sync</span>SYSTEM READY</span><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-secondary">stadia_controller</span>ARCADE ENGINE</span></div></div></footer></body></html>

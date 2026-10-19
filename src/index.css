@@ -1,1 +1,399 @@
 @import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens — extracted from Stitch project "Cybernetic Arena HUD"
+   (screens: AI Battle Arena Desktop/Mobile HUD). Dark theme only.
+   Fighter 1 = cyan (left), Fighter 2 = magenta (right), Judge = amber.
+------------------------------------------------------------------- */
+
+@theme {
+  /* Canvas & surface ladder */
+  --color-background: #11131d;
+  --color-surface: #11131d;
+  --color-surface-dim: #11131d;
+  --color-surface-bright: #373844;
+  --color-surface-variant: #32343f;
+  --color-surface-container-lowest: #0c0e18;
+  --color-surface-container-low: #191b26;
+  --color-surface-container: #1d1f2a;
+  --color-surface-container-high: #282934;
+  --color-surface-container-highest: #32343f;
+
+  /* Text */
+  --color-on-surface: #e1e1f0;
+  --color-on-surface-variant: #bbc9cd;
+  --color-outline: #859397;
+  --color-outline-variant: #3c494c;
+
+  /* Fighter 1 — electric cyan */
+  --color-fighter-1: #22d3ee;
+  --color-fighter-1-soft: #8aebff;
+  --color-fighter-1-on: #00363e;
+  --color-primary: #8aebff;
+  --color-on-primary: #00363e;
+  --color-primary-container: #22d3ee;
+  --color-on-primary-container: #005763;
+  --color-inverse-primary: #006877;
+  --color-primary-fixed: #a2eeff;
+  --color-primary-fixed-dim: #2fd9f4;
+
+  /* Fighter 2 — hot magenta */
+  --color-fighter-2: #d10183;
+  --color-fighter-2-soft: #ffb0cf;
+  --color-fighter-2-on: #ffebf0;
+  --color-secondary: #ffb0cf;
+  --color-on-secondary: #63003c;
+  --color-secondary-container: #d10183;
+  --color-on-secondary-container: #ffebf0;
+  --color-secondary-fixed: #ffd9e5;
+  --color-secondary-fixed-dim: #ffb0cf;
+
+  /* Judge — arcade amber */
+  --color-judge: #ffb147;
+  --color-judge-soft: #ffd6a7;
+  --color-judge-on: #704500;
+  --color-tertiary: #ffd6a7;
+  --color-on-tertiary: #472a00;
+  --color-tertiary-container: #ffb147;
+  --color-on-tertiary-container: #704500;
+  --color-tertiary-fixed: #ffddb8;
+  --color-tertiary-fixed-dim: #ffb95f;
+
+  /* Error */
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* Inverse */
+  --color-inverse-surface: #e1e1f0;
+  --color-inverse-on-surface: #2e303b;
+
+  /* Radii (arcade bevel geometry) */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  /* Fonts */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Typography scale (from Stitch theme.typography) */
+  --text-display-hero: 3.5rem;
+  --text-display-hero--line-height: 4rem;
+  --text-display-hero--letter-spacing: -0.02em;
+  --text-display-hero--font-weight: 700;
+
+  --text-display-hero-mobile: 2.25rem;
+  --text-display-hero-mobile--line-height: 2.75rem;
+  --text-display-hero-mobile--letter-spacing: -0.01em;
+  --text-display-hero-mobile--font-weight: 700;
+
+  --text-headline-lg: 2rem;
+  --text-headline-lg--line-height: 2.5rem;
+  --text-headline-lg--letter-spacing: 0.02em;
+  --text-headline-lg--font-weight: 700;
+
+  --text-headline-lg-mobile: 1.5rem;
+  --text-headline-lg-mobile--line-height: 2rem;
+  --text-headline-lg-mobile--letter-spacing: 0.01em;
+  --text-headline-lg-mobile--font-weight: 700;
+
+  --text-headline-md: 1.375rem;
+  --text-headline-md--line-height: 1.75rem;
+  --text-headline-md--letter-spacing: 0.03em;
+  --text-headline-md--font-weight: 600;
+
+  --text-hud-timer: 3rem;
+  --text-hud-timer--line-height: 3rem;
+  --text-hud-timer--letter-spacing: 0.05em;
+  --text-hud-timer--font-weight: 700;
+
+  --text-body-lg: 1rem;
+  --text-body-lg--line-height: 1.625rem;
+
+  --text-body-md: 0.875rem;
+  --text-body-md--line-height: 1.375rem;
+
+  --text-body-code: 0.8125rem;
+  --text-body-code--line-height: 1.25rem;
+  --text-body-code--font-weight: 500;
+
+  --text-label-caps: 0.75rem;
+  --text-label-caps--line-height: 1rem;
+  --text-label-caps--letter-spacing: 0.12em;
+  --text-label-caps--font-weight: 700;
+
+  --text-label-sm: 0.6875rem;
+  --text-label-sm--line-height: 0.875rem;
+  --text-label-sm--letter-spacing: 0.08em;
+  --text-label-sm--font-weight: 600;
+
+  /* Spacing tokens (4px baseline grid) */
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-gutter: 1.25rem;
+  --spacing-margin: 1.5rem;
+}
+
+/* Base canvas */
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-surface-container-lowest);
+    color: var(--color-on-surface);
+  }
+
+  body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+  }
+
+  /* Visible neon focus rings on dark, keyboard only */
+  :focus-visible {
+    outline: 2px solid var(--color-fighter-1);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-fighter-1);
+    color: var(--color-fighter-1-on);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Repeated patterns: neon glows, panels, grid backdrop, keyframes.
+------------------------------------------------------------------- */
+
+.arena-grid-bg {
+  background-image: radial-gradient(#3c494c 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.panel-inset {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glow-fighter-1 {
+  box-shadow:
+    0 0 16px rgba(34, 211, 238, 0.25),
+    inset 0 0 8px rgba(34, 211, 238, 0.1);
+}
+
+.glow-fighter-2 {
+  box-shadow:
+    0 0 16px rgba(225, 29, 143, 0.25),
+    inset 0 0 8px rgba(225, 29, 143, 0.1);
+}
+
+.glow-judge {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+}
+
+.text-glow-fighter-1 {
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+}
+
+.text-glow-fighter-2 {
+  text-shadow: 0 0 12px rgba(209, 1, 131, 0.6);
+}
+
+.text-glow-judge {
+  text-shadow: 0 0 12px rgba(255, 177, 71, 0.6);
+}
+
+/* Chamfered corners for the FIGHT-style system trigger */
+.clip-chamfer {
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+}
+
+@keyframes arena-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes arena-aura-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes arena-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+@keyframes arena-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes arena-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-arena-float {
+  animation: arena-float 3.2s ease-in-out infinite;
+}
+
+.animate-arena-aura {
+  animation: arena-aura-pulse 2s ease-in-out infinite;
+}
+
+.animate-arena-shimmer {
+  animation: arena-shimmer 1.6s linear infinite;
+}
+
+.animate-arena-caret {
+  animation: arena-caret 0.8s step-end infinite;
+}
+
+.animate-arena-fade-in {
+  animation: arena-fade-in 0.3s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-arena-float,
+  .animate-arena-aura,
+  .animate-arena-shimmer,
+  .animate-arena-caret,
+  .animate-arena-fade-in,
+  .animate-ping,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin {
+    animation: none !important;
+  }
+
+  .motion-safe\:animate-arena-float {
+    animation: arena-float 3.2s ease-in-out infinite;
+  }
+}
+
+/* Slim neon scrollbars for solution viewports */
+.arena-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-container) var(--color-surface-container-lowest);
+}
+
+.arena-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.arena-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.arena-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-primary-container);
+  border-radius: 9999px;
+}
+
+/* ------------------------------------------------------------------
+   Syntax highlighting (highlight.js) — arena dark theme.
+------------------------------------------------------------------- */
+.hljs {
+  color: var(--color-on-surface);
+  background: transparent;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--color-outline);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-doctag,
+.hljs-name {
+  color: var(--color-tertiary);
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute {
+  color: var(--color-secondary);
+}
+
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet {
+  color: var(--color-primary);
+}
+
+.hljs-title,
+.hljs-built_in,
+.hljs-title.class_,
+.hljs-title.function_ {
+  color: var(--color-primary-fixed);
+}
+
+.hljs-type,
+.hljs-params,
+.hljs-meta {
+  color: var(--color-tertiary-fixed-dim);
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable {
+  color: var(--color-secondary-fixed-dim);
+}
+
+.hljs-deletion {
+  color: var(--color-error);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
