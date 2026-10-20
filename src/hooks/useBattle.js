@@ -1,16 +1,17 @@
 /**
  * Battle flow state machine:
  * idle -> submitting -> generating -> judging -> revealing -> done, plus error.
- * Runs against the mock `runBattle` until Phase 3 swaps in `lib/api.js`.
+ * The network call goes through `lib/api.js`; the loading phases stay simulated.
  * @module hooks/useBattle
  */
 
 import { useEffect, useReducer, useRef } from 'react'
-import { runBattle } from '../mocks/runBattle.js'
+import { runBattle } from '../lib/api.js'
 import {
   ACTIVE_PHASES,
   BATTLE_PHASES,
   GENERATING_PHASE_MS,
+  REQUEST_TIMEOUT_MS,
   ROUND_COUNTDOWN_MS,
 } from '../lib/constants.js'
 
@@ -81,7 +82,12 @@ function toBattleError(failure) {
     case 'timeout':
       return {
         kind: 'timeout',
-        message: 'The round timed out after 120 seconds. The models took too long to answer.',
+        message: `The round timed out after ${REQUEST_TIMEOUT_MS / 1000} seconds. The models took too long to answer.`,
+      }
+    case 'invalid':
+      return {
+        kind: 'unknown',
+        message: 'The server sent an answer the arena could not read. Nobody won this round.',
       }
     case 'server':
       return {

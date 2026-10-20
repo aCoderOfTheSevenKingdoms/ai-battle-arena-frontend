@@ -5,12 +5,13 @@ import ConfirmPopover from './ConfirmPopover'
 import ResultView from './ResultView'
 import { normalizeWinner } from '../lib/normalizeWinner'
 import { MAX_SCORE } from '../lib/constants'
+import { getModelIdentifiers, getWinnerLabel } from '../lib/models'
 
-/** Winner badge presentation per normalized outcome — text always carries the meaning. */
-const BADGE = {
-  fighter1: { tone: 'fighter1', label: 'FIGHTER 1' },
-  fighter2: { tone: 'fighter2', label: 'FIGHTER 2' },
-  draw: { tone: 'neutral', label: 'DRAW' },
+/** Winner badge tone per normalized outcome — text always carries the meaning. */
+const BADGE_TONE = {
+  fighter1: 'fighter1',
+  fighter2: 'fighter2',
+  draw: 'neutral',
 }
 
 /**
@@ -23,16 +24,18 @@ const BADGE = {
  *
  * @param {object} props
  * @param {import('../lib/types.js').Battle} props.battle
+ * @param {import('../lib/types.js').ModelRoster} [props.models] Real model names, with generic fallbacks.
  * @param {(problem: string) => void} props.onRerun Prefills the input; never submits.
  * @param {(id: string) => void} props.onDelete
  * @param {number} [props.index=0] Used only for a capped staggered entrance delay.
  */
-function BattleCard({ battle, onRerun, onDelete, index = 0 }) {
+function BattleCard({ battle, models, onRerun, onDelete, index = 0 }) {
   const [expanded, setExpanded] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
 
-  const outcome = normalizeWinner(battle.judgement)
-  const { tone, label } = BADGE[outcome] ?? BADGE.draw
+  const outcome = normalizeWinner(battle.judgement, getModelIdentifiers(models))
+  const tone = BADGE_TONE[outcome] ?? BADGE_TONE.draw
+  const label = getWinnerLabel(outcome, models)
   const score1 = battle.judgement.solution_1.score
   const score2 = battle.judgement.solution_2.score
   const timestamp = new Date(battle.createdAt).toLocaleString()
@@ -97,7 +100,7 @@ function BattleCard({ battle, onRerun, onDelete, index = 0 }) {
             <p className="font-body text-body-md text-on-surface-variant border-l-2 border-outline-variant pl-space-sm">
               {battle.problem}
             </p>
-            <ResultView battle={battle} outcome={outcome} compact />
+            <ResultView battle={battle} outcome={outcome} models={models} compact />
             <div className="flex flex-wrap items-center gap-space-sm">
               <Button
                 variant="ghost"

@@ -3,6 +3,7 @@ import WinnerBanner from './WinnerBanner'
 import FighterResultCard from './FighterResultCard'
 import Button from './Button'
 import { REVEAL_DURATION_MS } from '../lib/constants'
+import { fighterName, getWinnerLabel } from '../lib/models'
 
 const STAGE_CARDS_DELAY_MS = 0
 const STAGE_SCORE_DELAY_MS = 900
@@ -30,7 +31,8 @@ function prefersReducedMotion() {
  * @param {object} props
  * @param {import('../lib/types.js').Battle} props.battle
  * @param {import('../lib/types.js').Outcome} props.outcome
- * @param {string} [props.winnerLabel] Defaults to DRAW / FIGHTER 1 / FIGHTER 2.
+ * @param {import('../lib/types.js').ModelRoster} [props.models] Real model names, with generic fallbacks.
+ * @param {string} [props.winnerLabel] Defaults to the winning model or DRAW.
  * @param {boolean} [props.animated=false] True while the live battle is in its revealing phase.
  * @param {() => void} [props.onRevealComplete] Fires exactly once per reveal timeline, only when animated.
  * @param {boolean} [props.compact=false] History rendering: static, no confetti, no skip, never completes.
@@ -39,7 +41,8 @@ function prefersReducedMotion() {
 function ResultView({
   battle,
   outcome,
-  winnerLabel = outcome === 'draw' ? 'DRAW' : outcome === 'fighter2' ? 'FIGHTER 2' : 'FIGHTER 1',
+  models,
+  winnerLabel = getWinnerLabel(outcome, models),
   animated = false,
   onRevealComplete,
   compact = false,
@@ -138,7 +141,7 @@ function ResultView({
       >
         <FighterResultCard
           side="1"
-          title="FIGHTER 1"
+          title={fighterName(models, '1')}
           solution={battle.solution_1}
           score={judgement.solution_1.score}
           feedback={judgement.solution_1.feedback}
@@ -150,7 +153,7 @@ function ResultView({
         />
         <FighterResultCard
           side="2"
-          title="FIGHTER 2"
+          title={fighterName(models, '2')}
           solution={battle.solution_2}
           score={judgement.solution_2.score}
           feedback={judgement.solution_2.feedback}

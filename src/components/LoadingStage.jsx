@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BATTLE_PHASES, REASSURANCE_AFTER_MS, STILL_WORKING_AFTER_MS } from '../lib/constants.js'
+import { fighterName, judgeName } from '../lib/models.js'
 import ChallengeCard from './ChallengeCard'
 import FighterLoadingColumn from './FighterLoadingColumn'
 import IndeterminateProgressBar from './IndeterminateProgressBar'
@@ -45,8 +46,9 @@ const randomEmote = (side) => {
  * @param {object} props
  * @param {'generating' | 'judging'} props.phase
  * @param {string} props.problem Shown in the challenge card while waiting.
+ * @param {import('../lib/types.js').ModelRoster} props.models Real model names, with generic fallbacks.
  */
-function LoadingStage({ phase, problem }) {
+function LoadingStage({ phase, problem, models }) {
   const [elapsedMs, setElapsedMs] = useState(0)
   const [emote, setEmote] = useState(null)
 
@@ -80,6 +82,7 @@ function LoadingStage({ phase, problem }) {
       <div className="flex w-full items-start justify-center gap-space-sm sm:gap-space-lg">
         <FighterLoadingColumn
           side="1"
+          name={fighterName(models, '1')}
           variant={fighterVariant}
           emote={emote?.side === 1 ? emote.text : null}
           onReact={() => setEmote({ side: 1, text: randomEmote('1') })}
@@ -89,7 +92,7 @@ function LoadingStage({ phase, problem }) {
           <JudgeAvatar
             variant={isJudging ? 'deliberating' : 'idle'}
             size={isJudging ? 'lg' : 'md'}
-            label={isJudging ? 'THE ARBITER IS DELIBERATING' : 'THE ARBITER'}
+            label={isJudging ? `${judgeName(models)} IS DELIBERATING` : judgeName(models)}
             onClick={() => setEmote({ side: 'judge', text: randomEmote('judge') })}
           />
           {emote?.side === 'judge' && (
@@ -99,6 +102,7 @@ function LoadingStage({ phase, problem }) {
 
         <FighterLoadingColumn
           side="2"
+          name={fighterName(models, '2')}
           variant={fighterVariant}
           emote={emote?.side === 2 ? emote.text : null}
           onReact={() => setEmote({ side: 2, text: randomEmote('2') })}

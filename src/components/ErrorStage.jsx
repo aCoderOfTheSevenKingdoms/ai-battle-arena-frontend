@@ -1,6 +1,7 @@
 import ChallengeCard from './ChallengeCard'
 import ErrorMessage from './ErrorMessage'
 import FighterAvatar from './FighterAvatar'
+import { fighterName } from '../lib/models.js'
 
 /**
  * Knocked-out error tableau with Retry + Abort (PROJECT_SCOPE 4.6).
@@ -10,10 +11,11 @@ import FighterAvatar from './FighterAvatar'
  * @param {object} props
  * @param {import('../lib/types.js').BattleError} props.error
  * @param {string} props.problem The problem that was persisted before the call.
+ * @param {import('../lib/types.js').ModelRoster} [props.models] Real model names, with generic fallbacks.
  * @param {() => void} props.onRetry Resubmits the same problem.
  * @param {() => void} props.onAbort Returns the stage to idle.
  */
-function ErrorStage({ error, problem, onRetry, onAbort }) {
+function ErrorStage({ error, problem, models, onRetry, onAbort }) {
   const codeLabel = {
     network: '[EXCEPTION: NETWORK]',
     server: '[EXCEPTION: HTTP]',
@@ -24,8 +26,18 @@ function ErrorStage({ error, problem, onRetry, onAbort }) {
   return (
     <div className="flex flex-col items-center gap-space-lg py-space-md">
       <div className="flex w-full items-center justify-center gap-space-md sm:gap-space-xl">
-        <FighterAvatar side="1" variant="knockedOut" size="md" name="FIGHTER 1" />
-        <FighterAvatar side="2" variant="knockedOut" size="md" name="FIGHTER 2" />
+        <FighterAvatar
+          side="1"
+          variant="knockedOut"
+          size="md"
+          name={fighterName(models, '1')}
+        />
+        <FighterAvatar
+          side="2"
+          variant="knockedOut"
+          size="md"
+          name={fighterName(models, '2')}
+        />
       </div>
       {problem && (
         <ChallengeCard problem={problem} phaseLabel="PHASE: ROUND FAILED" tone="error" />

@@ -12,6 +12,7 @@ import HudChip from './HudChip'
  *
  * @param {object} props
  * @param {import('../lib/types.js').Battle[]} props.battles Newest first.
+ * @param {import('../lib/types.js').ModelRoster} [props.models] Real model names, with generic fallbacks.
  * @param {(problem: string) => void} props.onRerun Prefills the input; never submits.
  * @param {(id: string) => void} props.onDelete
  * @param {() => void} props.onClearAll
@@ -25,6 +26,7 @@ import HudChip from './HudChip'
  */
 function Sidebar({
   battles,
+  models,
   onRerun,
   onDelete,
   onClearAll,
@@ -120,6 +122,7 @@ function Sidebar({
           >
             <BattleHistory
               battles={battles}
+              models={models}
               onRerun={handleRerun}
               onDelete={onDelete}
               onClearAll={onClearAll}

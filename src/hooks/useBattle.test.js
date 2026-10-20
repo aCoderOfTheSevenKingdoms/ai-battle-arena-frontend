@@ -4,9 +4,9 @@
 import { act, cleanup, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useBattle } from './useBattle.js'
-import { runBattle } from '../mocks/runBattle.js'
+import { runBattle } from '../lib/api.js'
 
-vi.mock('../mocks/runBattle.js', () => ({ runBattle: vi.fn() }))
+vi.mock('../lib/api.js', () => ({ runBattle: vi.fn() }))
 
 const RESULT = {
   problem: 'Fix it',

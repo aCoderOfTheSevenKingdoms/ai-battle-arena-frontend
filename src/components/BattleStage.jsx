@@ -27,6 +27,7 @@ const ANNOUNCEMENTS = {
  * @param {import('../lib/types.js').Battle | null} props.battle Completed battle once resolved.
  * @param {import('../lib/types.js').BattleError | null} props.error Present in the error phase.
  * @param {import('../lib/types.js').Outcome} props.outcome Normalized winner side.
+ * @param {import('../lib/types.js').ModelRoster} props.models Real model names, with generic fallbacks.
  * @param {() => void} props.onRevealComplete Ends the reveal phase.
  * @param {() => void} props.onRetry Resubmits the same problem after an error.
  * @param {() => void} props.onAbort Leaves the error state for idle.
@@ -37,6 +38,7 @@ function BattleStage({
   battle,
   error,
   outcome,
+  models,
   onRevealComplete,
   onRetry,
   onAbort,
@@ -50,18 +52,19 @@ function BattleStage({
         {ANNOUNCEMENTS[phase] ?? ''}
       </p>
 
-      {phase === IDLE && <IdleStage />}
+      {phase === IDLE && <IdleStage models={models} />}
 
       {phase === SUBMITTING && <RoundCountdown />}
 
       {(phase === GENERATING || phase === JUDGING) && (
-        <LoadingStage phase={phase} problem={problem} />
+        <LoadingStage phase={phase} problem={problem} models={models} />
       )}
 
       {(phase === REVEALING || phase === DONE) && battle && (
         <ResultView
           battle={battle}
           outcome={outcome}
+          models={models}
           animated={phase === REVEALING}
           onRevealComplete={onRevealComplete}
         />
@@ -71,6 +74,7 @@ function BattleStage({
         <ErrorStage
           error={error}
           problem={problem}
+          models={models}
           onRetry={onRetry}
           onAbort={onAbort}
         />

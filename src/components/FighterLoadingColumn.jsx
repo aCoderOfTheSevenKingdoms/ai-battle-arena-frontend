@@ -7,11 +7,12 @@ import SpeechBubble from './SpeechBubble'
  *
  * @param {object} props
  * @param {'1' | '2'} props.side
+ * @param {string} [props.name] Display name (real model name or generic fallback).
  * @param {'charging' | 'waiting'} props.variant Avatar pose for the current phase.
  * @param {string | null} [props.emote=null] Active emote line, if any.
  * @param {() => void} props.onReact Idle click reaction.
  */
-function FighterLoadingColumn({ side, variant, emote = null, onReact }) {
+function FighterLoadingColumn({ side, name, variant, emote = null, onReact }) {
   const tone = side === '1' ? 'fighter1' : 'fighter2'
 
   return (
@@ -20,7 +21,7 @@ function FighterLoadingColumn({ side, variant, emote = null, onReact }) {
         side={side}
         variant={variant}
         size="md"
-        name={side === '1' ? 'FIGHTER 1' : 'FIGHTER 2'}
+        name={name || (side === '1' ? 'FIGHTER 1' : 'FIGHTER 2')}
         onClick={onReact}
       />
       {emote ? (

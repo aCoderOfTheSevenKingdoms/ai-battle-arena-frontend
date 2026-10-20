@@ -2,7 +2,34 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App.jsx'
-import { setMockDelay, setMockFailure } from '../mocks/runBattle.js'
+import { getModels, runBattle } from '../lib/api.js'
+
+vi.mock('../lib/api.js', () => ({
+  runBattle: vi.fn(),
+  getModels: vi.fn(),
+}))
+
+const MOCK_DELAY_MS = 11000
+
+const MODELS = {
+  solution_1: { model: 'openai/gpt-oss-20b', name: 'GPT-OSS 20B', provider: 'Groq' },
+  solution_2: { model: 'command-a-03-2025', name: 'Command A', provider: 'Cohere' },
+  judge: { model: 'gemini-3.1-flash-lite', name: 'Gemini 3.1 Flash Lite', provider: 'Google' },
+}
+
+const buildResult = (problem) => ({
+  problem,
+  solution_1: 'Solution one',
+  solution_2: 'Solution two',
+  judgement: {
+    solution_1: { score: 8, feedback: 'Sharp and complete.' },
+    solution_2: { score: 6, feedback: 'Works, but skips edge cases.' },
+    winner: 'Fighter 1',
+  },
+})
+
+/** Failure kind applied to the next mocked battle call. */
+let failureMode = 'none'
 
 // jsdom has no matchMedia; report reduced motion so animated fallbacks are used
 // and canvas-confetti never tries to draw on a stub canvas.
@@ -22,8 +49,26 @@ beforeAll(() => {
 beforeEach(() => {
   vi.useFakeTimers()
   sessionStorage.clear()
-  setMockFailure('none')
-  setMockDelay(null)
+  failureMode = 'none'
+
+  getModels.mockReset()
+  getModels.mockReturnValue(new Promise(() => {})) // keep generic labels
+
+  runBattle.mockReset()
+  runBattle.mockImplementation(
+    (problem) =>
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (failureMode === 'none') {
+            resolve(buildResult(problem))
+            return
+          }
+          const error = new Error(`mock failure: ${failureMode}`)
+          error.kind = failureMode
+          reject(error)
+        }, MOCK_DELAY_MS)
+      }),
+  )
 })
 
 afterEach(() => {
@@ -41,11 +86,11 @@ const advance = (ms) =>
     await vi.advanceTimersByTimeAsync(ms)
   })
 
-/** Drives the simulated phases plus the mock response and the reduced-motion reveal. */
+/** Drives the simulated phases plus the mocked response and the reduced-motion reveal. */
 const playFullBattle = async () => {
   await advance(1800) // countdown -> generating
   await advance(8000) // generating -> judging
-  await advance(1200) // mock response lands (11s total)
+  await advance(1200) // response lands (11s total)
   await advance(400) // reduced-motion reveal completion
 }
 
@@ -56,6 +101,35 @@ describe('App battle flow', () => {
     expect(screen.getByText(/AI Battle Arena/i)).toBeTruthy()
     expect(screen.getByText(/Throw the first problem into the arena/i)).toBeTruthy()
     expect(screen.getByText(/this browser session/i)).toBeTruthy()
+  })
+
+  it('uses real model names in the arena when /models resolves', async () => {
+    getModels.mockResolvedValue(MODELS)
+    render(<App />)
+
+    await act(async () => {
+      await Promise.resolve()
+    })
+
+    typeProblem('Write a debounce function')
+    pressFight()
+    await advance(1800)
+
+    expect(screen.getByText('GPT-OSS 20B')).toBeTruthy()
+    expect(screen.getByText('Command A')).toBeTruthy()
+    expect(screen.getByText('Gemini 3.1 Flash Lite')).toBeTruthy()
+  })
+
+  it('keeps the generic fighter labels when /models is unavailable', async () => {
+    getModels.mockRejectedValue(new Error('offline'))
+    render(<App />)
+
+    typeProblem('Write a debounce function')
+    pressFight()
+    await advance(1800)
+
+    expect(screen.getByText('FIGHTER 1')).toBeTruthy()
+    expect(screen.getByText('FIGHTER 2')).toBeTruthy()
   })
 
   it('keeps FIGHT disabled until the problem has real content', () => {
@@ -102,7 +176,7 @@ describe('App battle flow', () => {
   })
 
   it('shows the knocked-out error with a Retry that keeps the input', async () => {
-    setMockFailure('network')
+    failureMode = 'network'
     render(<App />)
     typeProblem('Fix my broken build')
     pressFight()
@@ -121,7 +195,7 @@ describe('App battle flow', () => {
     fireEvent.click(screen.getByRole('button', { name: /Battles:\s*00/i }))
     expect(screen.getByText(/NO BATTLES YET/i)).toBeTruthy()
 
-    setMockFailure('none')
+    failureMode = 'none'
     fireEvent.click(screen.getByRole('button', { name: /REBOOT BENCHMARK/ }))
     expect(screen.getByText('Round 1 starting.')).toBeTruthy()
 

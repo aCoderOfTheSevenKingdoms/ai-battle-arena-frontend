@@ -10,6 +10,7 @@ import HudChip from './HudChip'
  *
  * @param {object} props
  * @param {import('../lib/types.js').Battle[]} props.battles Newest first.
+ * @param {import('../lib/types.js').ModelRoster} [props.models] Real model names, with generic fallbacks.
  * @param {(problem: string) => void} props.onRerun Prefills the input; never submits.
  * @param {(id: string) => void} props.onDelete
  * @param {() => void} props.onClearAll
@@ -23,6 +24,7 @@ import HudChip from './HudChip'
  */
 function ArenaLanding({
   battles,
+  models,
   onRerun,
   onDelete,
   onClearAll,
@@ -68,6 +70,7 @@ function ArenaLanding({
       <div className="w-full max-w-4xl">
         <BattleHistory
           battles={battles}
+          models={models}
           onRerun={onRerun}
           onDelete={onDelete}
           onClearAll={onClearAll}

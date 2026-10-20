@@ -11,12 +11,13 @@ import HudChip from './HudChip'
  *
  * @param {object} props
  * @param {import('../lib/types.js').Battle[]} props.battles Newest first.
+ * @param {import('../lib/types.js').ModelRoster} [props.models] Real model names, with generic fallbacks.
  * @param {(problem: string) => void} props.onRerun
  * @param {(id: string) => void} props.onDelete
  * @param {() => void} props.onClearAll
  * @param {string} [props.className='']
  */
-function BattleHistory({ battles, onRerun, onDelete, onClearAll, className = '' }) {
+function BattleHistory({ battles, models, onRerun, onDelete, onClearAll, className = '' }) {
   const [confirmClear, setConfirmClear] = useState(false)
   const count = battles.length
 
@@ -62,6 +63,7 @@ function BattleHistory({ battles, onRerun, onDelete, onClearAll, className = '' 
             <li key={battle.id}>
               <BattleCard
                 battle={battle}
+                models={models}
                 index={i}
                 onRerun={onRerun}
                 onDelete={onDelete}

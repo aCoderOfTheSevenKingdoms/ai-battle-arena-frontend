@@ -4,7 +4,9 @@ import BattleStage from '../components/BattleStage.jsx'
 import Sidebar from '../components/Sidebar.jsx'
 import { useBattle } from '../hooks/useBattle.js'
 import { useBattleHistory } from '../hooks/useBattleHistory.js'
+import { useModels } from '../hooks/useModels.js'
 import { ARENA_VIEWS } from '../lib/constants.js'
+import { getModelIdentifiers } from '../lib/models.js'
 import { normalizeWinner } from '../lib/normalizeWinner.js'
 
 function App() {
@@ -14,12 +16,16 @@ function App() {
   const [problem, setProblem] = useState('')
   // Landing until the first battle starts; then the input + log move to the sidebar.
   const [view, setView] = useState(ARENA_VIEWS.LANDING)
+  // Model names are optional metadata; generic labels remain until they load.
+  const models = useModels()
 
   // Persist the problem at submit and mark failed rounds; list only completed battles.
   const live = useBattle({ onBattleComplete: addBattle, onBattleUpdate: persistBattle })
 
   // The judge's raw verdict is untrusted; resolve it once per battle.
-  const outcome = live.battle ? normalizeWinner(live.battle.judgement) : 'draw'
+  const outcome = live.battle
+    ? normalizeWinner(live.battle.judgement, getModelIdentifiers(models))
+    : 'draw'
 
   const handleSubmit = () => {
     if (live.submit(problem)) setView(ARENA_VIEWS.ARENA)
@@ -32,6 +38,7 @@ function App() {
 
   const consoleProps = {
     battles,
+    models,
     onRerun: handleRerun,
     onDelete: deleteBattle,
     onClearAll: clearAll,
@@ -58,6 +65,7 @@ function App() {
               battle={live.battle}
               error={live.error}
               outcome={outcome}
+              models={models}
               onRevealComplete={live.finishReveal}
               onRetry={live.retry}
               onAbort={live.reset}

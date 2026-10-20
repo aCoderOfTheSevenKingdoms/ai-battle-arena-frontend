@@ -75,8 +75,14 @@ export const STILL_WORKING_AFTER_MS = 45000
 /** Total duration (ms) of the skippable result reveal sequence. */
 export const REVEAL_DURATION_MS = 5000
 
-/** Network request timeout (ms) for the battle call — used from Phase 3. */
+/** Network request timeout (ms) for the battle call. */
 export const REQUEST_TIMEOUT_MS = 120000
+
+/** Shorter timeout (ms) for the read-only model roster lookup. */
+export const MODELS_TIMEOUT_MS = 8000
+
+/** API origin used when `VITE_API_BASE_URL` is not configured. */
+export const DEFAULT_API_BASE_URL = 'http://localhost:3000'
 
 /** Example problems offered as clickable chips under the textarea. */
 export const EXAMPLE_PROBLEMS = Object.freeze([

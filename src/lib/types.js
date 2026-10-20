@@ -30,6 +30,16 @@
  * @property {'network' | 'server' | 'timeout' | 'unknown'} kind
  * @property {string} message  Human-readable, already mapped for display
  * @property {number} [status] HTTP status for 'server' errors
+ *
+ * @typedef {Object} ModelInfo
+ * @property {string} model     Provider model identifier, e.g. "openai/gpt-oss-20b"
+ * @property {string} name      Human-readable model name
+ * @property {string} provider  Provider name, e.g. "Groq"
+ *
+ * @typedef {Object} ModelRoster
+ * @property {ModelInfo | null} solution_1 Fighter 1 model
+ * @property {ModelInfo | null} solution_2 Fighter 2 model
+ * @property {ModelInfo | null} judge      Judge model
  */
 
 export {}
